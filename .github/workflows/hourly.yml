@@ -1,11 +1,17 @@
 name: Hourly run
 
-# Every hour at :31. Fetches feeds, ranks stories and republishes the site.
+# Every hour at :29 (plus a backup at :31 from cron-job.org). Fetches feeds, ranks stories and republishes the site.
 # In the 6am UK hour on weekdays it also builds the email; at 8am, 12pm and 6pm it posts to Facebook.
 on:
   schedule:
     - cron: "29 * * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "auto (normal run), facebook (post one story now) or email (build today's email now)"
+        default: auto
+        type: choice
+        options: [auto, facebook, email]
 
 permissions:
   contents: write    # to save the database back to the repo
@@ -37,7 +43,7 @@ jobs:
       - name: Run the engine
         run: |
           set -o pipefail
-          python run.py auto 2>&1 | tee data/last_run.log
+          python run.py "${{ inputs.command || 'auto' }}" 2>&1 | tee data/last_run.log
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}

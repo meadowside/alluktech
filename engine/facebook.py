@@ -49,7 +49,7 @@ def post(story: Story, db: DB, now: datetime, site_url: str) -> str:
     if not page or not token:
         result = f"dry run (no FB_PAGE_ID / FB_PAGE_TOKEN). Would post: {message!r} with link {link}"
     else:
-        version = os.environ.get("FB_GRAPH_VERSION", "v21.0")
+        version = os.environ.get("FB_GRAPH_VERSION", "v26.0")
         data = urllib.parse.urlencode({"message": message, "link": link, "access_token": token}).encode()
         try:
             with urllib.request.urlopen(f"{GRAPH}/{version}/{page}/feed", data=data, timeout=30) as r:

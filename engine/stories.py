@@ -195,7 +195,11 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
 
     # Coverage: each outlet counts once, at its weight.
     s.coverage = sum(o.weight for o in outlets.values())
-    s.relevance = max(int(i["relevance"] or 1) for i in group)
+    # Recomputed every run (not the value stored at fetch time) so rule changes apply at once.
+    s.relevance = max(
+        rules.uk_relevance(f"{i['title']}. {i['summary'] or ''}", cfg.by_id.get(i["outlet_id"]) if i["outlet_id"] else None)
+        for i in group
+    )
     s.regulator = any(o.source and o.source.tier == 4 and o.source.standalone for o in outlets.values())
     s.exclusive = (
         len(outlets) == 1

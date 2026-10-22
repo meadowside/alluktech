@@ -74,6 +74,7 @@ sources:
     google: true
     tier: 1
     weight: 3
+    uk_angle: true      # global wire: needs a UK angle like any global outlet
     sections: [funding, big-tech]
 
   - id: cityam

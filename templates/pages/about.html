@@ -1,0 +1,18 @@
+{% extends "pages/_page.html" %}
+{% block body %}
+<p class="lede">{{ site.name }} shows the UK tech stories that the most outlets are covering, updated every hour.</p>
+
+<h2>How it works</h2>
+<p>Every hour we read around 40 news feeds: national papers, UK tech titles, a few global tech sites and official sources such as Ofcom, the CMA and the NCSC. Articles about the same event are grouped into one story.</p>
+<p>Each story is then ranked by how many outlets are covering it. National outlets count for more than specialist ones, a story needs a clear UK angle to appear, and older stories slowly sink. Nobody picks the order by hand.</p>
+<p>Every headline links straight to the publisher that wrote it. We don't copy articles.</p>
+
+<h2>The "So what" lines</h2>
+<p>The short "So what" line under a story is written by AI from the coverage. It's there to save you a click, and like any summary it can be wrong. The publisher's article is always the source to trust.</p>
+
+<h2>The email</h2>
+<p>The top stories go out by email at 7am, Monday to Friday. <a href="https://alluktech.substack.com">Sign up free</a>.</p>
+
+<h2>Who runs it</h2>
+<p>{{ site.name }} is run by {{ site.owner }}, who also publishes AI Prompt Hackers, Answerable and Use Case Archive. Spotted a story in the wrong place or an outlet we should add? <a href="contact.html">Get in touch</a>.</p>
+{% endblock %}

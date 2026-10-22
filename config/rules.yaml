@@ -6,6 +6,10 @@ site:
   tagline: UK tech news, ranked by who's covering it.
   url: https://alluktech.com
   timezone: Europe/London
+  owner: Andy Wood                 # named on the About, Privacy and Terms pages
+  # The contact form needs a free Formspree form (formspree.io). Paste its ID here, e.g. "xyzabcd".
+  # Until then the Contact page explains it isn't ready yet.
+  formspree_id: ""
 
 # Order here is the order on the site and in the email.
 # email_min / email_max: a section with fewer than email_min items runs short, never padded.
@@ -30,6 +34,11 @@ sections:
     email_min: 3
     email_max: 4
     site_max: 10
+  - id: infrastructure
+    name: Infrastructure
+    email_min: 2
+    email_max: 3
+    site_max: 8
   - id: security
     name: Security
     email_min: 2
@@ -49,13 +58,18 @@ section_keywords:
             start-up, scaleup, scale-up, founder, founders, venture capital, vc]
   ai: [ai, artificial intelligence, llm, llms, chatbot, chatbots, openai, deepmind, anthropic, chatgpt, gemini, claude,
        copilot, machine learning, generative, agentic, gpu, gpus, superintelligence, aisi, ai models]
+  infrastructure: [broadband, fibre, full fibre, openreach, altnet, altnets, 5g, 6g, mobile network, mobile networks,
+                   telecoms, telecom, telco, telcos, vodafone, virgin media o2, data centre, data centres, datacentre,
+                   datacentres, hyperscaler, hyperscalers, cloud outage, outage, outages, chips, chip, chipmaker,
+                   semiconductor, semiconductors, quantum, quantum computing, supercomputer, supercomputers,
+                   satellite, satellites, subsea cable, compute, gigafactory, grid connection]
   big-tech: [apple, google, alphabet, meta, facebook, instagram, whatsapp, amazon, microsoft, nvidia, tiktok, tesla,
              netflix, twitter, musk, samsung, arm holdings, spacex, starlink, iphone, android]
 
 # A story must mention at least one of these, or a keyword from the sections in tech_sections,
 # to count as tech. Stops general news from the BBC, Guardian and City AM feeds getting in.
 # (Funding and Policy words like "founder" or "court" are too general to prove a story is tech.)
-tech_sections: [ai, security, big-tech]
+tech_sections: [ai, security, big-tech, infrastructure]
 tech_keywords: [tech, technology, software, app, apps, digital, online, internet, website, websites, data centre,
                 data centres, datacentre, cloud, broadband, fibre, 5g, mobile network, telecoms, chip, chips,
                 semiconductor, semiconductors, quantum, robot, robots, robotics, fintech, insurtech, healthtech,
@@ -74,7 +88,7 @@ exclude:
   # Phrases, matched anywhere in the title. Kept narrow on purpose: "deal" or "review" on
   # their own would also kill real news ("Arm agrees £2bn deal", "CMA review of Microsoft").
   title_keywords: ["deals:", "best deals", "deal of the day", "black friday", "prime day", "cyber monday", discount,
-                   "% off", voucher, coupon, "best ", "top 10", "top ten", "review:", "hands-on", "hands on:",
+                   "% off", voucher, coupon, "best ", "top 10", "top ten", "review:", "hands-on", "hands on:", " review – ", " review - ",
                    "how to", "what is", "explained", quiz, sponsored, "in partnership with", "partner content",
                    podcast, "live:", "as it happened", "week in review", "the week in", "weekly:", "roundup:",
                    "round-up:", "morning briefing", "evening briefing", webinar, "opinion:",

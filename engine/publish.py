@@ -15,6 +15,7 @@ from .db import DB, parse_iso
 from .stories import Story, why_template
 
 TEMPLATES = ROOT / "templates"
+PAGES_UPDATED = "22 October 2026"  # change when you edit the Privacy or Terms pages
 
 
 def _env() -> Environment:
@@ -126,6 +127,14 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
     for sec in sections:  # the home page shows the first 5 of each; the section page shows them all
         (out / f"{sec['id']}.html").write_text(
             env.get_template("section.html").render(**ctx, section=sec, stories=sec["stories"], page=sec["id"], sidebar=True),
+            encoding="utf-8",
+        )
+
+    pages = {"about": "About", "privacy": "Privacy", "terms": "Terms", "contact": "Contact"}
+    for slug, title in pages.items():
+        (out / f"{slug}.html").write_text(
+            env.get_template(f"pages/{slug}.html").render(**ctx, page=slug, page_title=title, sidebar=False,
+                                                          updated_date=PAGES_UPDATED),
             encoding="utf-8",
         )
 

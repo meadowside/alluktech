@@ -1,0 +1,25 @@
+{% extends "pages/_page.html" %}
+{% block body %}
+<p class="lede">Short version: we don't track you, we don't use advertising cookies and we don't sell anything about you.</p>
+
+<h2>What this site collects</h2>
+<p>Nothing that identifies you, unless you use the contact form. There are no analytics, no tracking pixels and no advertising cookies.</p>
+<p>If you switch between light and dark mode, your choice is saved in your own browser so the site remembers it next time. It never leaves your device and you can clear it by clearing your browser's site data.</p>
+
+<h2>Other services the site uses</h2>
+<ul>
+  <li><b>GitHub Pages</b> hosts the site. Like any web host, it may log your IP address for security.</li>
+  <li><b>Google Fonts</b> and <b>Google's favicon service</b> supply the typefaces and the small outlet logos, so your browser asks Google for them.</li>
+  <li><b>Formspree</b> processes messages sent through the contact form.</li>
+  <li><b>Substack</b> runs the email list. If you sign up, Substack's own privacy policy applies to that.</li>
+</ul>
+<p>When you click a headline you leave this site, and the publisher's own privacy policy applies.</p>
+
+<h2>Contact form messages</h2>
+<p>If you send a message, we receive your name, email address and message. We use them only to reply, and delete them when they're no longer needed.</p>
+
+<h2>Your rights</h2>
+<p>Under UK data protection law you can ask to see, correct or delete any personal data we hold about you. Use the <a href="contact.html">contact form</a>. If you're unhappy with how we handle it, you can complain to the Information Commissioner's Office at ico.org.uk.</p>
+
+<p class="small">{{ site.name }} is run by {{ site.owner }}. Last updated {{ updated_date }}.</p>
+{% endblock %}

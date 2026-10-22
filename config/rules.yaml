@@ -48,7 +48,8 @@ sections:
 # Keywords that pull a story into a section. When several match,
 # the section with the most hits wins; ties go to the first in this list.
 section_keywords:
-  security: [breach, breached, hack, hacked, hackers, ransomware, cyber, cyberattack, cyber-attack, cybersecurity,
+  security: [data breach, security breach, cyber breach, breach of personal data, records stolen, data stolen,
+             stolen data, leaked data, data leaked, hack, hacked, hackers, ransomware, cyber, cyberattack, cyber-attack, cybersecurity,
              vulnerability, vulnerabilities, malware, phishing, data leak, ncsc, exploit, zero-day, ddos, spyware, scam, scammers]
   policy: [ofcom, ico, cma, fca, regulator, regulators, regulation, law, minister, ministers, government,
            parliament, mps, fined, consultation, dsit, online safety, online safety act, competition watchdog, watchdog,

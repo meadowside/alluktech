@@ -1,5 +1,6 @@
-All UK Tech run: auto at Thu 22 Oct 15:55 UK time
-  feeds: 39/40 worked, 23 new items (0 excluded by rules)
-  stories: 439 grouped, 233 pass the UK and quality rules
-  site: 204 stories live, 0 new AI lines. Top: Websites taken down worldwide as critical cyber-security update issued
-  AI lines: 0 written, 0 rejected, 0 failed calls
+All UK Tech run: auto at Thu 22 Oct 16:31 UK time
+  feeds: 39/40 worked, 36 new items (0 excluded by rules)
+  stories: 454 grouped, 238 pass the UK and quality rules
+  AI line rejected (36 words): "The coverage doesn't establish a direct UK link, but it shows how a court can force app store operators to change distribution rules, a prec"
+  site: 207 stories live, 2 new AI lines. Top: Websites taken down worldwide as critical cyber-security update issued
+  AI lines: 2 written, 1 rejected, 0 failed calls

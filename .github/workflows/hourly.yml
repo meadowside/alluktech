@@ -52,12 +52,19 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
       - name: Save the database
+        # Code may have been pushed while this run was working, so catch up before saving.
+        # Our new data wins any clash. If saving still fails, the site is published anyway.
+        continue-on-error: true
         run: |
           git config user.name "All UK Tech bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A data
-          git commit -m "Data update $(date -u +%Y-%m-%dT%H:%MZ)" || echo "Nothing new to save"
-          git push
+          git commit -m "Data update $(date -u +%Y-%m-%dT%H:%MZ)" || { echo "Nothing new to save"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            echo "Save attempt $i failed, retrying"; sleep 5
+          done
+          exit 1
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

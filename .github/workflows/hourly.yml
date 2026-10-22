@@ -35,7 +35,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run the engine
-        run: python run.py auto
+        run: |
+          set -o pipefail
+          python run.py auto 2>&1 | tee data/last_run.log
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}

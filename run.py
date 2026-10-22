@@ -61,7 +61,8 @@ def main():
         weekday_ok = local.weekday() < 5 or not email_cfg.get("weekdays_only", True)
         date = local.strftime("%Y-%m-%d")
         if args.command == "email" or (
-            args.command == "auto" and weekday_ok and local.hour == email_cfg["build_hour"] and not db.email_built(date)
+            args.command == "auto" and weekday_ok and not db.email_built(date)
+            and email_cfg["build_hour"] <= local.hour < email_cfg["build_hour"] + email_cfg.get("late_window_hours", 4)
         ):
             res = build_email(stories, db, cfg, now, args.out, archive)
             print(f"  email: {res['stories']} stories, {res['llm_lines']} new AI lines"
@@ -71,9 +72,13 @@ def main():
             print(f"  notify: {notify.send(message)}")
 
         fb = cfg.rules["facebook"]
-        hour_start = local.replace(minute=0, second=0)
+        # Post for the latest slot that has passed today, if nothing has gone out since it.
+        # A late hourly run still posts; it never posts twice for one slot.
+        due = [h for h in fb["post_hours"] if h <= local.hour]
+        slot_start = local.replace(hour=max(due), minute=0, second=0, microsecond=0) if due else None
         if args.command == "facebook" or (
-            args.command == "auto" and local.hour in fb["post_hours"] and not db.fb_posted_in_hour(hour_start)
+            args.command == "auto" and slot_start is not None and local.hour - max(due) < 3
+            and not db.fb_posted_in_hour(slot_start)
         ):
             story = facebook.pick(stories, db, fb["section"], fb["min_relevance"])
             if story:

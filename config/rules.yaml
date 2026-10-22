@@ -172,7 +172,8 @@ clustering:
   merge_similarity: 0.15          # two finished stories this similar get merged into one
 
 email:
-  build_hour: 6               # UK time; the hourly job builds the email on its first run in this hour
+  build_hour: 6               # UK time; the first run from 6am builds the email
+  late_window_hours: 4        # if runs are late, still build it up to 10am
   weekdays_only: true
 
 facebook:

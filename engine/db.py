@@ -129,7 +129,7 @@ class DB:
             out |= set(json.loads(r["item_ids"]))
         return out
 
-    def fb_posted_in_hour(self, hour_start: datetime) -> bool:
+    def fb_posted_in_hour(self, hour_start: datetime) -> bool:  # i.e. posted since this time
         return self.conn.execute(
             "SELECT 1 FROM fb_posts WHERE posted_at >= ?", (iso(hour_start),)
         ).fetchone() is not None

@@ -181,7 +181,9 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
     coverage = max(s.coverage, sc["exclusive_floor"]) if s.exclusive else s.coverage
 
     # Eligibility.
-    if all(o.source and o.source.confirm for o in outlets.values()):
+    if not any(rules.is_tech(f"{i['title']}. {i['summary'] or ''}") for i in group):
+        s.eligible, s.why_not = False, "not a tech story"
+    elif all(o.source and o.source.confirm for o in outlets.values()):
         s.eligible, s.why_not = False, "primary source with no outlet coverage yet"
     elif s.relevance >= 2:
         s.eligible = True

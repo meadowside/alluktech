@@ -52,6 +52,18 @@ section_keywords:
   big-tech: [apple, google, alphabet, meta, facebook, instagram, whatsapp, amazon, microsoft, nvidia, tiktok, tesla,
              netflix, twitter, musk, samsung, arm holdings, spacex, starlink, iphone, android]
 
+# A story must mention at least one of these (or any section keyword above) to count as tech.
+# Stops general news from the BBC, Guardian and City AM feeds getting in.
+tech_keywords: [tech, technology, software, app, apps, digital, online, internet, website, websites, data centre,
+                data centres, datacentre, cloud, broadband, fibre, 5g, mobile network, telecoms, chip, chips,
+                semiconductor, semiconductors, quantum, robot, robots, robotics, fintech, insurtech, healthtech,
+                edtech, proptech, smartphone, smartphones, computer, computers, computing, platform, platforms,
+                social media, streaming, satellite, satellites, space, crypto, bitcoin, blockchain, stablecoin,
+                gaming, video game, video games, console, electric vehicle, electric vehicles, ev, evs, battery,
+                batteries, autonomous, self-driving, drone, drones, algorithm, algorithms, data, privacy, encryption,
+                developer, developers, coding, open source, saas, e-commerce, ecommerce, payments, wearable, gadget,
+                gadgets, laptop, laptops, tablet, iphone, android, ai]
+
 # Stories matching these never appear.
 exclude:
   url_patterns: [/deals/, /deal/, /best-, /buying-guide, /coupon, /voucher, /promo, /sponsored/, /partner-content/,
@@ -61,7 +73,8 @@ exclude:
   title_keywords: ["deals:", "best deals", "deal of the day", "black friday", "prime day", "cyber monday", discount,
                    "% off", voucher, coupon, "best ", "top 10", "top ten", "review:", "hands-on", "hands on:",
                    "how to", "what is", "explained", quiz, sponsored, "in partnership with", "partner content",
-                   podcast, "live:", "as it happened", "week in review", "the week in", webinar, "opinion:",
+                   podcast, "live:", "as it happened", "week in review", "the week in", "weekly:", "roundup:",
+                   "round-up:", "morning briefing", "evening briefing", webinar, "opinion:",
                    "comment:", "letters:"]
   # Reviews of UK launches are allowed if the title also has one of these.
   title_keyword_exceptions: [launch, launches, launched, available in the uk, uk release]

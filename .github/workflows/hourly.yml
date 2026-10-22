@@ -4,7 +4,7 @@ name: Hourly run
 # In the 6am UK hour on weekdays it also builds the email; at 8am, 12pm and 6pm it posts to Facebook.
 on:
   schedule:
-    - cron: "31 * * * *"
+    - cron: "29 * * * *"
   workflow_dispatch: {}
 
 permissions:

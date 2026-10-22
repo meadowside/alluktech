@@ -93,6 +93,10 @@ exclude:
                    podcast, "live:", "as it happened", "week in review", "the week in", "weekly:", "roundup:",
                    "round-up:", "morning briefing", "evening briefing", webinar, "opinion:",
                    "comment:", "letters:", "tech life"]
+  # Phrases that mark an item as a job advert or listing, checked in the summary too.
+  # (Google News puts the source name in the summary: "... The Times Appointments".)
+  summary_keywords: ["the times appointments", "times appointments", "apply now", "job description",
+                     "salary:", "closing date"]
   # Reviews of UK launches are allowed if the title also has one of these.
   title_keyword_exceptions: [launch, launches, launched, available in the uk, uk release]
 

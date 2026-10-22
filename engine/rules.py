@@ -21,6 +21,7 @@ class Rules:
         self.url_patterns = [p.lower() for p in ex["url_patterns"]]
         self.title_keywords = [k.lower() for k in ex["title_keywords"]]
         self.title_exceptions = [k.lower() for k in ex.get("title_keyword_exceptions", [])]
+        self.summary_keywords = [k.lower() for k in ex.get("summary_keywords", [])]
 
         uk = r["uk"]
         self.uk_strong = _phrase_regex(uk["strong"])
@@ -39,11 +40,15 @@ class Rules:
         return any(self.section_res.get(sid) and self.section_res[sid].search(text) for sid in self.tech_sections)
 
     # ---------- exclusions ----------
-    def exclusion_reason(self, title: str, url: str) -> str | None:
+    def exclusion_reason(self, title: str, url: str, summary: str = "") -> str | None:
         u = (url or "").lower()
         for p in self.url_patterns:
             if p in u:
                 return f"url:{p}"
+        sm = (summary or "").lower()
+        for k in self.summary_keywords:
+            if k in sm:
+                return f"summary:{k}"
         t = f" {(title or '').lower()} "
         for k in self.title_keywords:
             if k in t:

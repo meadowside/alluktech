@@ -42,7 +42,7 @@ sources:
 
   - id: times-tech
     name: The Times
-    url: https://news.google.com/rss/search?q=site:thetimes.com+technology+when:1d&hl=en-GB&gl=GB&ceid=GB:en
+    url: https://news.google.com/rss/search?q=site:thetimes.com+technology+-appointments+-jobs+when:1d&hl=en-GB&gl=GB&ceid=GB:en
     domain: thetimes.com
     google: true
     tier: 1

@@ -162,7 +162,7 @@ def _keep(item, cfg: Config, rules: Rules) -> bool:
     """Every article must be about tech on its own, before grouping. Otherwise a general news
     item (oil prices, a job advert) can join a tech story and take over its headline.
     Regulator feeds publish plenty that isn't tech, so their headline itself must be about tech."""
-    if rules.exclusion_reason(item["title"], item["url"]):  # rules edited since the item was fetched
+    if rules.exclusion_reason(item["title"], item["url"], item["summary"] or ""):  # rules edited since the item was fetched
         return False
     src = cfg.by_id.get(item["outlet_id"]) if item["outlet_id"] else None
     if src and src.always_tech:

@@ -99,7 +99,7 @@ def fetch_all(cfg: Config, db: DB, rules: Rules, now: datetime, fixtures: Path |
             hint_source = outlet or source
 
             text = f"{title}. {summary}"
-            excluded = rules.exclusion_reason(title, url)
+            excluded = rules.exclusion_reason(title, url, summary)
             relevance = rules.uk_relevance(text, hint_source)
             section = rules.pick_section(rules.section_hits(text), hint_source.sections)
 

@@ -58,6 +58,12 @@ def trending(stories: list[Story], cfg: Config, now: datetime) -> list[dict]:
     return rows[: t.get("max", 6)]
 
 
+def just_in(stories: list[Story], cfg: Config) -> list[Story]:
+    """The newest stories, by when we first saw them, whatever their coverage."""
+    n = cfg.rules.get("just_in", {}).get("max", 6)
+    return sorted(stories, key=lambda s: s.first_seen, reverse=True)[:n]
+
+
 def add_so_what(wanted: list[Story], everything: list[Story], db: DB, cfg: Config, now: datetime) -> int:
     """Attach saved AI lines to every story, and write new ones for the stories that need them.
     Each story is written once: the line is saved against all its items and reused from then on."""
@@ -117,6 +123,7 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
         "updated": local.strftime("%-d %b %Y, %H:%M"),
         "year": local.year,
         "trending": trend,
+        "just_in": just_in(live, cfg),
         "promos": cfg.rules.get("promos", []),
     }
     env = _env()
@@ -124,9 +131,12 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
     (out / "index.html").write_text(
         env.get_template("index.html").render(**ctx, top=top, sections=sections, page="home", sidebar=True), encoding="utf-8"
     )
+    sec_max = {sec["id"]: sec["site_max"] for sec in cfg.sections}
     for sec in sections:  # the home page shows the first 5 of each; the section page shows them all
         (out / f"{sec['id']}.html").write_text(
-            env.get_template("section.html").render(**ctx, section=sec, stories=sec["stories"], page=sec["id"], sidebar=True),
+            env.get_template("section.html").render(**ctx, section=sec, stories=sec["stories"], page=sec["id"], sidebar=True,
+                                                    latest=sorted(by_section[sec["id"]], key=lambda s: s.first_seen,
+                                                                  reverse=True)[: sec_max[sec["id"]]]),
             encoding="utf-8",
         )
 

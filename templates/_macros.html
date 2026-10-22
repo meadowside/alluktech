@@ -14,7 +14,17 @@
     {% if s.so_what %}<p class="sowhat"><b>So what:</b> {{ s.so_what }}</p>{% endif %}
     {{ src_line(s) }}
   </div>
-  <span class="count" title="{{ s.source_count }} outlet{{ 's' if s.source_count != 1 }} covering this"><b>{{ s.source_count }}</b><small>outlet{{ 's' if s.source_count != 1 }}</small></span>
+  {% if s.source_count > 1 %}
+  <details class="count">
+    <summary title="See who's covering this"><b>{{ s.source_count }}</b><small>outlets</small></summary>
+    <div class="cov-pop">
+      <span class="cov-title">Who's covering it</span>
+      {% for o, item in s.sources() %}<a href="{{ item.url }}" rel="noopener" target="_blank" title="{{ item.title }}">{{ favicon(o) }}{{ o.name }}{% if o.source and o.source.paywall %} <span class="tag">£</span>{% endif %}</a>{% endfor %}
+    </div>
+  </details>
+  {% else %}
+  <span class="count" title="Only one outlet so far"><b>1</b><small>outlet</small></span>
+  {% endif %}
 </li>
 {%- endmacro %}
 
@@ -22,12 +32,17 @@
 {% set groups = [("National", s.outlets.values()|selectattr("tier", "equalto", 1)|list),
                  ("UK specialist", s.outlets.values()|selectattr("tier", "equalto", 2)|list),
                  ("Also", s.outlets.values()|rejectattr("tier", "in", [1, 2])|list)] %}
+{% set links = {} %}{% for o, item in s.sources() %}{% set _ = links.update({o.key: item}) %}{% endfor %}
 <div class="coverage">
   <span class="cov-title">Who's covering it</span>
   {% for name, outs in groups if outs %}
   <span class="grp grp-{{ loop.index }}"><em>{{ name }}</em>
-    {% for o in outs[:5] %}<span class="o">{{ favicon(o) }}{{ o.name }}</span>{% endfor %}
-    {% if outs|length > 5 %}<span class="more-n">+{{ outs|length - 5 }}</span>{% endif %}
+    {% for o in outs[:6] %}<a class="o" href="{{ links[o.key].url }}" rel="noopener" target="_blank" title="{{ links[o.key].title }}">{{ favicon(o) }}{{ o.name }}</a>{% endfor %}
+    {% if outs|length > 6 %}
+    <details class="more-d"><summary>+{{ outs|length - 6 }} more</summary>
+      <span class="more-list">{% for o in outs[6:] %}<a class="o" href="{{ links[o.key].url }}" rel="noopener" target="_blank" title="{{ links[o.key].title }}">{{ favicon(o) }}{{ o.name }}</a>{% endfor %}</span>
+    </details>
+    {% endif %}
   </span>
   {% endfor %}
 </div>

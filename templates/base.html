@@ -95,13 +95,43 @@ ol.ranked { list-style: none; margin: 0; padding: 0; }
 .row:first-child .hl { font-size: 18px; }
 .sowhat { margin: 2px 0 6px; font-size: 13.5px; line-height: 1.45; color: var(--ink); padding-left: 10px; border-left: 2px solid var(--accent); }
 .sowhat b { font-weight: 600; color: var(--accent-ink); }
-.count { text-align: center; background: var(--chip); border-radius: 8px; padding: 4px 0 3px; }
-.count b { display: block; font: 700 17px/1 var(--serif); }
-.count small { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; }
-.row:first-child .count { background: var(--accent-soft); }
-.row:first-child .count b { color: var(--accent-ink); }
+span.count { text-align: center; background: var(--chip); border-radius: 8px; padding: 4px 0 3px; }
+span.count b { display: block; font: 700 17px/1 var(--serif); }
+span.count small { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; }
+.row:first-child span.count { background: var(--accent-soft); }
+.row:first-child span.count b { color: var(--accent-ink); }
+
+/* ---- source lists ---- */
+details.count { position: relative; }
+details.count summary { list-style: none; cursor: pointer; text-align: center; background: var(--chip); border-radius: 8px; padding: 4px 0 3px; }
+details.count summary::-webkit-details-marker { display: none; }
+details.count summary:hover, details.count[open] summary { outline: 1px solid var(--accent); }
+details.count summary b { display: block; font: 700 17px/1 var(--serif); }
+details.count summary small { display: block; font-size: 10px; color: var(--muted); margin-top: 2px; }
+.row:first-child details.count summary { background: var(--accent-soft); }
+.row:first-child details.count summary b { color: var(--accent-ink); }
+.cov-pop { position: absolute; right: 0; top: calc(100% + 6px); z-index: 5; width: 240px; background: var(--card);
+  border: 1px solid var(--rule); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 2px; text-align: left; }
+.cov-pop .cov-title { margin-bottom: 4px; }
+.cov-pop a { display: flex; align-items: center; gap: 7px; padding: 5px 4px; border-radius: 6px; font-size: 13.5px; }
+.cov-pop a:hover { background: var(--chip); text-decoration: none; }
+.cov-pop img, .more-list img { width: 14px; height: 14px; border-radius: 3px; }
+a.o:hover { color: var(--accent); }
+.more-d summary { cursor: pointer; color: var(--muted); font-size: 12px; list-style: none; }
+.more-d summary::-webkit-details-marker { display: none; }
+.more-d[open] summary { margin-bottom: 4px; }
+.more-list { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; }
+.order-switch { display: inline-flex; background: var(--chip); border-radius: 999px; padding: 3px; margin: 0 0 14px; }
+.order-switch button { font: 500 13px var(--sans); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.order-switch button[aria-selected="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 
 /* ---- sidebar ---- */
+ul.justin { list-style: none; margin: 0; padding: 0; }
+ul.justin li { display: grid; grid-template-columns: 52px 1fr; gap: 6px; padding: 10px 0; border-top: 1px solid var(--rule); }
+ul.justin .when { font-size: 12px; font-weight: 600; color: var(--accent-ink); padding-top: 2px; }
+ul.justin a { font: 600 14.5px/1.35 var(--serif); }
+ul.justin .n { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
 aside.side { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 16px; }
 .box { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; }
 .box h2 { font: 700 17px/1.2 var(--serif); margin: 0 0 4px; }
@@ -198,6 +228,18 @@ table.status th, table.status td { text-align: left; padding: 7px 10px; border-b
 <div class="layout">
   <div>{% block main %}{% endblock %}</div>
   <aside class="side">
+    {% if just_in %}
+    <section class="box">
+      <h2>Just in</h2>
+      <p class="sub">The newest stories, as they land.</p>
+      <ul class="justin">
+        {% for s in just_in %}
+        <li><span class="when">{{ s.first_seen | ago }}</span><div><a href="{{ s.link }}" rel="noopener" target="_blank">{{ s.headline }}</a>
+          <span class="n">{{ s.link_outlet.name }}{% if s.source_count > 1 %}, {{ s.source_count }} outlets{% endif %}</span></div></li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
     {% if trending %}
     <section class="box">
       <h2>Trending</h2>
@@ -242,6 +284,14 @@ table.status th, table.status td { text-align: left; padding: 7px 10px; border-b
     root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
     try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
     show();
+  });
+  // Source lists: one open at a time, and a click elsewhere closes it.
+  var pops = document.querySelectorAll("details.count");
+  pops.forEach(function (d) {
+    d.addEventListener("toggle", function () { if (d.open) pops.forEach(function (o) { if (o !== d) o.open = false; }); });
+  });
+  document.addEventListener("click", function (e) {
+    pops.forEach(function (d) { if (d.open && !d.contains(e.target)) d.open = false; });
   });
 })();
 </script>

@@ -9,7 +9,7 @@ site:
   owner: Andy Wood                 # named on the About, Privacy and Terms pages
   # The contact form needs a free Formspree form (formspree.io). Paste its ID here, e.g. "xyzabcd".
   # Until then the Contact page explains it isn't ready yet.
-  formspree_id: ""
+  formspree_id: "mnpjekoa"
 
 # Order here is the order on the site and in the email.
 # email_min / email_max: a section with fewer than email_min items runs short, never padded.
@@ -73,10 +73,10 @@ tech_sections: [ai, security, big-tech, infrastructure]
 tech_keywords: [tech, technology, software, app, apps, digital, online, internet, website, websites, data centre,
                 data centres, datacentre, cloud, broadband, fibre, 5g, mobile network, telecoms, chip, chips,
                 semiconductor, semiconductors, quantum, robot, robots, robotics, fintech, insurtech, healthtech,
-                edtech, proptech, smartphone, smartphones, phone, phones, computer, computers, computing, platform, platforms,
+                edtech, proptech, smartphone, smartphones, phone, phones, computer, computers, computing,
                 social media, streaming, satellite, satellites, space, crypto, bitcoin, blockchain, stablecoin,
                 gaming, video game, video games, console, electric vehicle, electric vehicles, ev, evs, battery,
-                batteries, autonomous, self-driving, drone, drones, algorithm, algorithms, data, privacy, encryption,
+                batteries, autonomous, self-driving, drone, drones, algorithm, algorithms, privacy, encryption,
                 developer, developers, coding, open source, saas, e-commerce, ecommerce, payments, wearable, gadget,
                 gadgets, laptop, laptops, tablet, iphone, android, ai, startup, startups, start-up, scaleup, scaleups,
                 scale-up, unicorn, venture capital, vc, tech firm, tech company]
@@ -92,7 +92,7 @@ exclude:
                    "how to", "what is", "explained", quiz, sponsored, "in partnership with", "partner content",
                    podcast, "live:", "as it happened", "week in review", "the week in", "weekly:", "roundup:",
                    "round-up:", "morning briefing", "evening briefing", webinar, "opinion:",
-                   "comment:", "letters:"]
+                   "comment:", "letters:", "tech life"]
   # Reviews of UK launches are allowed if the title also has one of these.
   title_keyword_exceptions: [launch, launches, launched, available in the uk, uk release]
 
@@ -120,6 +120,9 @@ uk:
   uk_outlet_floor: 2
 
 # Sidebar: trending stories, then promos for sister titles. Edit freely.
+# "Just in" box: the newest stories as they arrive, whatever their coverage.
+just_in:
+  max: 6
 trending:
   window_hours: 6        # a story trends when outlets have joined it this recently
   min_new_outlets: 2
@@ -151,8 +154,8 @@ ai_lines:
 
 scoring:
   coverage_cap: 15
-  freshness_half_life_hours: 12
-  regulator_bonus: 2
+  freshness_half_life_hours: 6     # a story loses half its score every 6 hours
+  regulator_bonus: 0.5             # small nudge when an official source is in the story
   exclusive_floor: 4
   global_min_coverage: 12     # a story with no UK angle runs only above this coverage
   global_max_per_email: 2

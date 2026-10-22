@@ -77,6 +77,15 @@ class Story:
         self.link_outlet, self.link = outlet, url
         self.paywall = bool(outlet.source and outlet.source.paywall)
 
+    def sources(self) -> list[tuple[Outlet, dict]]:
+        """Every outlet with a link to its own article, national first. Prefers real article
+        links over Google News redirects."""
+        out = []
+        for o in sorted(self.outlets.values(), key=lambda o: (TIER_RANK.get(o.tier, 9), o.name)):
+            item = next((i for i in o.items if "news.google.com" not in i["url"]), o.items[0])
+            out.append((o, item))
+        return out
+
     def other_coverage(self, limit: int = 6) -> list[tuple[Outlet, dict]]:
         """One link per other outlet, best outlets first, for the 'more coverage' row."""
         out = []
@@ -150,12 +159,17 @@ def cluster(items: list, cfg: Config) -> list[list]:
 
 
 def _keep(item, cfg: Config, rules: Rules) -> bool:
-    """Regulator feeds publish plenty that isn't tech (office moves, fines on accountants).
-    Their items only count when the headline itself is about tech."""
+    """Every article must be about tech on its own, before grouping. Otherwise a general news
+    item (oil prices, a job advert) can join a tech story and take over its headline.
+    Regulator feeds publish plenty that isn't tech, so their headline itself must be about tech."""
+    if rules.exclusion_reason(item["title"], item["url"]):  # rules edited since the item was fetched
+        return False
     src = cfg.by_id.get(item["outlet_id"]) if item["outlet_id"] else None
-    if src and src.tier == 4 and src.standalone and not src.always_tech:
+    if src and src.always_tech:
+        return True
+    if src and src.tier == 4 and src.standalone:
         return rules.is_tech(item["title"])
-    return True
+    return rules.is_tech(f"{item['title']}. {item['summary'] or ''}")
 
 
 def build_stories(db: DB, cfg: Config, rules: Rules, now: datetime) -> list[Story]:

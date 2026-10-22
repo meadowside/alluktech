@@ -36,7 +36,7 @@ def why_it_matters(headline: str, snippets: list[str]) -> str | None:
         return None
     body = {
         "model": os.environ.get("LLM_MODEL", DEFAULT_MODEL),
-        "max_tokens": 80,
+        "max_tokens": 120,
         "messages": [{
             "role": "user",
             "content": PROMPT.format(headline=headline, snippets="\n".join(f"- {s}" for s in snippets[:5] if s)),
@@ -50,10 +50,40 @@ def why_it_matters(headline: str, snippets: list[str]) -> str | None:
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             data = json.load(resp)
-        text = "".join(b.get("text", "") for b in data.get("content", [])).strip().strip('"')
+        raw = "".join(b.get("text", "") for b in data.get("content", []))
     except Exception as e:
-        print(f"  LLM call failed, using template: {e}")
+        STATS["failed"] += 1
+        print(f"  AI call failed: {e}")
         return None
-    if not text or len(text.split()) > 35 or any(b in text.lower() for b in BANNED):
+    text = clean_line(raw)
+    reason = reject_reason(text)
+    if reason:
+        STATS["rejected"] += 1
+        print(f"  AI line rejected ({reason}): {raw.strip()[:140]!r}")
         return None
+    STATS["ok"] += 1
     return text
+
+
+STATS = {"ok": 0, "rejected": 0, "failed": 0}
+
+
+def clean_line(raw: str) -> str:
+    """Keep the first paragraph only. The model sometimes adds a note to itself after the sentence."""
+    first = next((p for p in raw.strip().split("\n") if p.strip()), "")
+    return first.strip().strip('"').strip()
+
+
+def reject_reason(text: str) -> str | None:
+    if not text:
+        return "empty"
+    words = len(text.split())
+    if words > 35:
+        return f"{words} words"
+    low = text.lower()
+    hit = next((b for b in BANNED if b in low), None)
+    if hit:
+        return f"banned: {hit}"
+    if not text.endswith((".", "!", "?")):
+        return "unfinished sentence"
+    return None

@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from engine import facebook, notify
+from engine import facebook, llm, notify
 from engine.config import ROOT, Config
 from engine.db import DB
 from engine.fetch import fetch_all
@@ -80,6 +80,9 @@ def main():
                 print(f"  facebook: {story.headline} -> {facebook.post(story, db, now)}")
             else:
                 print("  facebook: nothing new to post")
+        if llm.enabled():
+            st = llm.STATS
+            print(f"  AI lines: {st['ok']} written, {st['rejected']} rejected, {st['failed']} failed calls")
     finally:
         db.close()
 

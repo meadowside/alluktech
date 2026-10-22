@@ -1,30 +1,27 @@
 {% extends "base.html" %}
-{% from "_macros.html" import meta, favicon, story_li %}
+{% from "_macros.html" import row, coverage, src_line %}
 {% block main %}
 {% if top %}
-<article class="sotd">
-  <div class="label">Top story</div>
-  {{ meta(top) }}
-  <h1><a href="{{ top.link }}" rel="noopener" target="_blank">{{ top.headline }}</a></h1>
-  {% if top.teaser %}<p class="teaser">{{ top.teaser }}</p>{% endif %}
-  {% if top.why %}<p class="why"><b>Why it matters:</b> {{ top.why }}</p>{% endif %}
-  {% set others = top.other_coverage() %}
-  {% if others %}
-  <div class="more"><span>More coverage</span>
-    {% for o, item in others %}<a href="{{ item.url }}" rel="noopener" target="_blank" title="{{ item.title }}">{{ favicon(o) }}{{ o.name }}</a>{% endfor %}
+<article class="lead-story">
+  <div class="big-count"><b>{{ top.source_count }}</b><span>outlets <br>covering this</span></div>
+  <div class="lead-body">
+    <div class="label">Top story</div>
+    <h1><a href="{{ top.link }}" rel="noopener" target="_blank">{{ top.headline }}</a></h1>
+    {% if top.teaser %}<p class="teaser">{{ top.teaser }}</p>{% endif %}
+    {{ src_line(top) }}
   </div>
-  {% endif %}
+  {% if top.so_what %}<p class="why"><b>So what:</b> {{ top.so_what }}</p>
+  {% elif top.why %}<p class="why"><b>Why it's top:</b> {{ top.why }}</p>{% endif %}
+  {{ coverage(top) }}
 </article>
 {% endif %}
 
 <div class="grid">
 {% for sec in sections %}
   <section class="section" id="{{ sec.id }}">
-    <div class="section-head"><h2>{{ sec.name }}</h2>{% if sec.stories|length > 5 %}<a href="{{ sec.id }}.html">All {{ sec.stories|length }} &rarr;</a>{% endif %}</div>
+    <div class="section-head"><h2>{{ sec.name }}</h2>{% if sec.stories|length > 6 %}<a href="{{ sec.id }}.html">All {{ sec.stories|length }} &rarr;</a>{% endif %}</div>
     {% if sec.stories %}
-    <ol class="stories">
-      {% for s in sec.stories[:5] %}{{ story_li(s, loop.first) }}{% endfor %}
-    </ol>
+    <ol class="ranked">{% for s in sec.stories[:6] %}{{ row(s, loop.index) }}{% endfor %}</ol>
     {% else %}<p class="empty">Quiet so far today.</p>{% endif %}
   </section>
 {% endfor %}

@@ -57,6 +57,33 @@ def trending(stories: list[Story], cfg: Config, now: datetime) -> list[dict]:
     return rows[: t.get("max", 6)]
 
 
+def add_so_what(wanted: list[Story], everything: list[Story], db: DB, cfg: Config, now: datetime) -> int:
+    """Attach saved AI lines to every story, and write new ones for the stories that need them.
+    Each story is written once: the line is saved against all its items and reused from then on."""
+    for s in everything:
+        s.so_what = db.why_line(s.item_ids) or ""
+    ai = cfg.rules.get("ai_lines", {})
+    local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
+    day_start = local.replace(hour=0, minute=0, second=0, microsecond=0)
+    budget = min(ai.get("max_new_per_run", 25), ai.get("max_new_per_day", 150) - db.calls_today(day_start))
+    made, seen = 0, set()
+    for s in wanted:
+        if made >= budget:
+            break
+        if s.so_what or id(s) in seen:
+            continue
+        seen.add(id(s))
+        snippets = [i["summary"] or i["title"] for i in s.items if "news.google.com" not in i["url"]] or [s.headline]
+        line = llm.why_it_matters(s.headline, snippets)
+        if line is None and not llm.enabled():
+            break  # no key: don't loop through every story
+        if line:
+            s.so_what = line
+            db.save_why_line(s.item_ids, line, now)
+            made += 1
+    return made
+
+
 def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Path,
                email_archive: Path | None = None) -> dict:
     global _NOW
@@ -75,13 +102,20 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
         for sec in cfg.sections
     ]
 
+    trend = trending([s for s in live if s is not top], cfg, now)
+    ai = cfg.rules.get("ai_lines", {})
+    wanted = ([top] if top else []) + [s for sec in sections for s in sec["stories"][: ai.get("per_section", 6)]]
+    if ai.get("trending", True):
+        wanted += [t["story"] for t in trend]
+    new_lines = add_so_what(wanted, live, db, cfg, now)
+
     local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
     ctx = {
         "site": cfg.site,
         "nav": [(s["id"], s["name"]) for s in cfg.sections],
         "updated": local.strftime("%-d %b %Y, %H:%M"),
         "year": local.year,
-        "trending": trending([s for s in live if s is not top], cfg, now),
+        "trending": trend,
         "promos": cfg.rules.get("promos", []),
     }
     env = _env()
@@ -121,7 +155,7 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
         (out / "email").mkdir(exist_ok=True)
         for f in email_archive.glob("*.html"):
             shutil.copy2(f, out / "email" / f.name)
-    return {"live": len(live), "top": top.headline if top else None}
+    return {"live": len(live), "top": top.headline if top else None, "new_ai_lines": new_lines}
 
 
 # ---------------------------------------------------------------- email
@@ -188,15 +222,11 @@ def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: P
     picked = select_email(stories, db, cfg, now)
     top = picked["top"]
 
-    llm_used = 0
+    picks = ([top] if top else []) + [sec["stories"][0] for sec in picked["sections"] if sec["stories"]]
+    llm_used = add_so_what(picks, picks, db, cfg, now)
     for sec in picked["sections"]:
-        if not sec["stories"]:
-            continue
-        pick = sec["stories"][0]
-        snippets = [i["summary"] or i["title"] for i in pick.items]
-        line = llm.why_it_matters(pick.headline, snippets)
-        if line:
-            pick.why, llm_used = line, llm_used + 1
+        if sec["stories"] and sec["stories"][0].so_what:
+            sec["stories"][0].why = sec["stories"][0].so_what
 
     local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
     date = local.strftime("%Y-%m-%d")

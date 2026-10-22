@@ -128,6 +128,13 @@ promos:
     line: See where your AI system sits under the EU AI Act before you call an adviser.
     cta: Try it
 
+# AI "so what" lines (only when ANTHROPIC_API_KEY is set). Each story is written once and reused.
+ai_lines:
+  per_section: 6           # the stories shown on the home page get a line
+  trending: false          # also write lines for sidebar trending stories (not shown there yet)
+  max_new_per_run: 25      # cap on new lines in one hourly run
+  max_new_per_day: 150     # hard daily cap, whatever happens
+
 scoring:
   coverage_cap: 15
   freshness_half_life_hours: 12

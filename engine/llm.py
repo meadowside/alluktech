@@ -1,7 +1,7 @@
-"""Optional: one-sentence 'why it matters' lines for the section picks.
+"""Optional: one-sentence "so what" lines for stories on the site and in the email.
 
-Runs only when ANTHROPIC_API_KEY is set. About six short calls per email.
-Any failure falls back to the free template line, so the email always builds.
+Runs only when ANTHROPIC_API_KEY is set. Each story gets one call, ever: the line is saved
+in the database and reused on every later build. A failed call just means no line.
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ DEFAULT_MODEL = "claude-haiku-5-5"
 BANNED = ["bombshell", "shocking", "stunning", "game-changer", "game changer", "slams", "epic", "insane",
           "delve", "landscape", "crucial", "pivotal", "tapestry", "—"]
 
-PROMPT = """You write one line for a UK tech news email. Readers are UK founders, developers and IT people.
+PROMPT = """You write one line for a UK tech news site and email. Readers are UK founders, developers and IT people.
 
 Story headline: {headline}
 What the coverage says:
@@ -24,6 +24,10 @@ Write ONE sentence, 25 words or fewer, saying why this matters to people working
 Plain British English. No hype. No dashes. Don't repeat the headline. Don't start with "This".
 If the coverage doesn't support a UK angle, say what it means in practical terms instead.
 Reply with the sentence only."""
+
+
+def enabled() -> bool:
+    return bool(os.environ.get("ANTHROPIC_API_KEY"))
 
 
 def why_it_matters(headline: str, snippets: list[str]) -> str | None:

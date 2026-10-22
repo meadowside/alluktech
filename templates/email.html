@@ -35,7 +35,7 @@
 <h2>Top story</h2>
 <h3><a href="{{ top.link }}">{{ top.headline }}</a></h3>
 <p class="src">{{ top.link_outlet.name }}{% if top.paywall %} (£){% endif %} · {{ top.source_count }} source{{ 's' if top.source_count != 1 }}</p>
-<p><strong>Why it matters:</strong> <span class="fill">[Your line. The data says: {{ top.why }}]</span></p>
+<p><strong>Why it matters:</strong> <span class="fill">[Your line.{% if top.so_what %} AI suggests: {{ top.so_what }}{% endif %} The data says: {{ top.why }}]</span></p>
 {% endif %}
 
 {% for sec in sections %}{% if sec.stories %}

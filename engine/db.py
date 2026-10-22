@@ -44,6 +44,12 @@ CREATE TABLE IF NOT EXISTS emails (
     built_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS why_lines (
+    item_id INTEGER PRIMARY KEY,   -- every item in the story points at the same line
+    line TEXT NOT NULL,
+    created TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS source_health (
     source_id TEXT PRIMARY KEY,
     last_attempt TEXT,
@@ -96,6 +102,7 @@ class DB:
         self.conn.execute("DELETE FROM items WHERE published < ?", (cutoff,))
         self.conn.execute("DELETE FROM sent WHERE sent_date < ?", (cutoff[:10],))
         self.conn.execute("DELETE FROM fb_posts WHERE posted_at < ?", (cutoff,))
+        self.conn.execute("DELETE FROM why_lines WHERE created < ?", (cutoff,))
 
     # ----- sent stories -----
     def sent_records(self) -> list[tuple[set[int], float]]:
@@ -132,6 +139,26 @@ class DB:
             "INSERT INTO fb_posts (posted_at, item_ids, url, result) VALUES (?, ?, ?, ?)",
             (iso(now), json.dumps(item_ids), url, result),
         )
+
+    # ----- AI "so what" lines -----
+    def why_line(self, item_ids: list[int]) -> str | None:
+        if not item_ids:
+            return None
+        q = "SELECT line FROM why_lines WHERE item_id IN (%s) ORDER BY created LIMIT 1" % ",".join("?" * len(item_ids))
+        row = self.conn.execute(q, item_ids).fetchone()
+        return row["line"] if row else None
+
+    def save_why_line(self, item_ids: list[int], line: str, now: datetime):
+        self.conn.executemany(
+            "INSERT OR IGNORE INTO why_lines (item_id, line, created) VALUES (?, ?, ?)",
+            [(i, line, iso(now)) for i in item_ids],
+        )
+
+    def calls_today(self, day_start: datetime) -> int:
+        row = self.conn.execute(
+            "SELECT COUNT(DISTINCT line) AS n FROM why_lines WHERE created >= ?", (iso(day_start),)
+        ).fetchone()
+        return row["n"] or 0
 
     # ----- source health -----
     def record_health(self, source_id: str, now: datetime, ok: bool, count: int, error: str | None):

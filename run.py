@@ -55,7 +55,7 @@ def main():
 
         archive = args.db.parent / "emails"
         site = build_site(stories, db, cfg, now, args.out, archive)
-        print(f"  site: {site['live']} stories live. Top: {site['top']}")
+        print(f"  site: {site['live']} stories live, {site['new_ai_lines']} new AI lines. Top: {site['top']}")
 
         email_cfg = cfg.rules["email"]
         weekday_ok = local.weekday() < 5 or not email_cfg.get("weekdays_only", True)
@@ -64,7 +64,7 @@ def main():
             args.command == "auto" and weekday_ok and local.hour == email_cfg["build_hour"] and not db.email_built(date)
         ):
             res = build_email(stories, db, cfg, now, args.out, archive)
-            print(f"  email: {res['stories']} stories, {res['llm_lines']} AI-written lines"
+            print(f"  email: {res['stories']} stories, {res['llm_lines']} new AI lines"
                   + (f", short sections: {', '.join(res['short_sections'])}" if res["short_sections"] else ""))
             link = f"{cfg.site['url']}/email/{res['date']}.html"
             message = f"All UK Tech email for {res['date']} is ready: {link}"

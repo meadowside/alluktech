@@ -2,22 +2,33 @@
 {% if outlet.domain %}<img src="https://www.google.com/s2/favicons?domain={{ outlet.domain }}&sz=32" alt="" loading="lazy">{% endif %}
 {%- endmacro %}
 
-{% macro meta(s) -%}
-<div class="meta">
-  {{ favicon(s.link_outlet) }}<span class="outlet">{{ s.link_outlet.name }}</span>
-  <span class="dot">·</span><span>{{ s.last_seen | ago }}</span>
-  {% if s.source_count > 1 %}<span class="dot">·</span><span class="sources">{{ s.source_count }} sources</span>{% endif %}
-  {% if s.source_count >= 8 %}<span class="tag hot">Hot</span>{% endif %}
-  {% if s.paywall %}<span class="tag" title="Paywalled">£</span>{% endif %}
-  {% if s.is_global %}<span class="tag">Global</span>{% endif %}
-  {% if s.exclusive %}<span class="tag">Exclusive</span>{% endif %}
-</div>
+{% macro src_line(s) -%}
+<span class="src">{{ favicon(s.link_outlet) }}{{ s.link_outlet.name }}<span class="dot">·</span>{{ s.last_seen | ago }}{% if s.paywall %}<span class="tag" title="Paywalled">£</span>{% endif %}{% if s.is_global %}<span class="tag">Global</span>{% endif %}{% if s.exclusive %}<span class="tag">Exclusive</span>{% endif %}</span>
 {%- endmacro %}
 
-{% macro story_li(s, lead=false) -%}
-<li class="{{ 'lead' if lead }}">
-  {{ meta(s) }}
-  <h3><a href="{{ s.link }}" rel="noopener" target="_blank">{{ s.headline }}</a></h3>
-  {% if lead and s.teaser %}<p class="teaser">{{ s.teaser }}</p>{% endif %}
+{% macro row(s, n) -%}
+<li class="row">
+  <span class="rank">{{ n }}</span>
+  <div class="row-body">
+    <a class="hl" href="{{ s.link }}" rel="noopener" target="_blank">{{ s.headline }}</a>
+    {% if s.so_what %}<p class="sowhat"><b>So what:</b> {{ s.so_what }}</p>{% endif %}
+    {{ src_line(s) }}
+  </div>
+  <span class="count" title="{{ s.source_count }} outlet{{ 's' if s.source_count != 1 }} covering this"><b>{{ s.source_count }}</b><small>outlet{{ 's' if s.source_count != 1 }}</small></span>
 </li>
+{%- endmacro %}
+
+{% macro coverage(s) -%}
+{% set groups = [("National", s.outlets.values()|selectattr("tier", "equalto", 1)|list),
+                 ("UK specialist", s.outlets.values()|selectattr("tier", "equalto", 2)|list),
+                 ("Also", s.outlets.values()|rejectattr("tier", "in", [1, 2])|list)] %}
+<div class="coverage">
+  <span class="cov-title">Who's covering it</span>
+  {% for name, outs in groups if outs %}
+  <span class="grp grp-{{ loop.index }}"><em>{{ name }}</em>
+    {% for o in outs[:5] %}<span class="o">{{ favicon(o) }}{{ o.name }}</span>{% endfor %}
+    {% if outs|length > 5 %}<span class="more-n">+{{ outs|length - 5 }}</span>{% endif %}
+  </span>
+  {% endfor %}
+</div>
 {%- endmacro %}

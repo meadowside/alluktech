@@ -59,6 +59,7 @@ class Story:
     exclusive: bool = False
     regulator: bool = False
     why: str = ""
+    so_what: str = ""   # AI line, when there is one
 
     @property
     def key(self) -> int:

@@ -11,22 +11,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #faf9f6; --card: #ffffff; --ink: #15171b; --muted: #5f6672; --rule: #e4e1d9;
-  --accent: #c8102e; --navy: #012169; --chip: #f1efe9; --tag-bg: #fdecef; --tag-ink: #9b0d24;
+  --paper: #f8f9f6; --card: #ffffff; --ink: #15171b; --muted: #5f6672; --rule: #e1e4dd;
+  --accent: #0b7a4b; --accent-soft: #e4f3ea; --accent-ink: #075c38; --navy: #10261b; --chip: #eff1ec;
   --serif: "Source Serif 4", Georgia, serif;
   --sans: Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #111214; --card: #191b1f; --ink: #ecebe7; --muted: #9aa0aa; --rule: #2b2e34;
-    --accent: #ff4d63; --navy: #8fa8ff; --chip: #22252a; --tag-bg: #3a1a20; --tag-ink: #ff9aa8;
+    --paper: #101211; --card: #181b19; --ink: #eaece8; --muted: #9aa29c; --rule: #2a2f2c;
+    --accent: #3fcf8e; --accent-soft: #15301f; --accent-ink: #86e5b6; --navy: #0d2a1c; --chip: #222724;
   }
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
 
 header.top { border-bottom: 1px solid var(--rule); background: var(--card); }
 .masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 18px 0 10px; flex-wrap: wrap; }
@@ -36,7 +36,7 @@ header.top { border-bottom: 1px solid var(--rule); background: var(--card); }
 .updated { color: var(--muted); font-size: 13px; }
 nav.sections { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 14px; scrollbar-width: none; }
 nav.sections a { white-space: nowrap; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--chip); }
-nav.sections a.on { background: var(--ink); color: var(--paper); }
+nav.sections a.on { background: var(--accent); color: #fff; }
 nav.sections a:hover { text-decoration: none; }
 
 .meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; color: var(--muted); font-size: 12.5px; }
@@ -44,11 +44,12 @@ nav.sections a:hover { text-decoration: none; }
 .meta .outlet { color: var(--ink); font-weight: 500; }
 .dot { opacity: .5; }
 .tag { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: var(--chip); color: var(--muted); }
-.tag.hot { background: var(--tag-bg); color: var(--tag-ink); }
+.tag.hot { background: var(--accent-soft); color: var(--accent-ink); }
 .sources { font-weight: 600; color: var(--ink); }
 
 main.wrap { padding-top: 24px; padding-bottom: 48px; }
-.sotd { background: var(--card); border: 1px solid var(--rule); border-top: 4px solid var(--accent); border-radius: 10px; padding: 22px 24px; margin-bottom: 28px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+.sotd { background: var(--card); border: 1px solid var(--rule); border-top: 4px solid var(--accent); border-radius: 10px; padding: 22px 24px; margin-bottom: 24px; }
 .label { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
 .sotd h1 { font: 700 30px/1.2 var(--serif); margin: 10px 0 8px; letter-spacing: -0.3px; }
 .sotd .teaser { font-size: 16px; color: var(--muted); margin: 0 0 12px; max-width: 760px; }
@@ -71,18 +72,39 @@ ol.stories li.lead h3 { font-size: 19px; }
 ol.stories .teaser { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
 .empty { color: var(--muted); padding: 14px 0; font-size: 14px; }
 
+aside.side { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 16px; }
+.box { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; }
+.box h2 { font: 700 17px/1.2 var(--serif); margin: 0 0 4px; }
+.box .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 8px; }
+ol.trend { list-style: none; margin: 0; padding: 0; counter-reset: t; }
+ol.trend li { counter-increment: t; display: grid; grid-template-columns: 22px 1fr; gap: 4px; padding: 10px 0; border-top: 1px solid var(--rule); }
+ol.trend li::before { content: counter(t); font: 700 17px/1.2 var(--serif); color: var(--accent); }
+ol.trend a { font: 600 14.5px/1.35 var(--serif); }
+ol.trend .n { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+ol.trend .n b { color: var(--accent-ink); font-weight: 600; }
+.promo { display: block; padding: 12px 0; border-top: 1px solid var(--rule); }
+.promo:hover { text-decoration: none; }
+.promo b { display: block; font: 700 15px/1.3 var(--serif); }
+.promo span { display: block; color: var(--muted); font-size: 13px; margin: 3px 0 6px; }
+.promo em { font-style: normal; font-size: 12.5px; font-weight: 600; color: var(--accent); }
+.promo:hover em { text-decoration: underline; text-underline-offset: 3px; }
+
 .page-head h1 { font: 700 28px/1.2 var(--serif); margin: 0 0 4px; }
 .page-head p { color: var(--muted); margin: 0 0 18px; }
 
-.signup { margin-top: 28px; background: var(--navy); color: #fff; border-radius: 10px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.signup { margin-top: 24px; background: var(--navy); color: #fff; border-radius: 10px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .signup p { margin: 0; font-size: 15px; }
-.signup a.btn { background: #fff; color: #012169; font-weight: 600; padding: 9px 16px; border-radius: 8px; white-space: nowrap; }
+.signup a.btn { background: #3fcf8e; color: #062a19; font-weight: 600; padding: 9px 16px; border-radius: 8px; white-space: nowrap; }
 footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: 12.5px; padding: 20px 0 32px; }
 
 table.status { width: 100%; border-collapse: collapse; background: var(--card); font-size: 13px; }
 table.status th, table.status td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-.ok { color: #1a7f37; font-weight: 600; } .bad { color: var(--accent); font-weight: 600; }
+.ok { color: var(--accent); font-weight: 600; } .bad { color: #c0392b; font-weight: 600; }
 
+@media (max-width: 1000px) {
+  .layout { grid-template-columns: 1fr; }
+  aside.side { position: static; }
+}
 @media (max-width: 760px) {
   .grid { grid-template-columns: 1fr; }
   .sotd { padding: 18px 16px; }
@@ -109,7 +131,35 @@ table.status th, table.status td { text-align: left; padding: 7px 10px; border-b
   </div>
 </header>
 <main class="wrap">
-{% block main %}{% endblock %}
+{% if sidebar %}
+<div class="layout">
+  <div>{% block main %}{% endblock %}</div>
+  <aside class="side">
+    {% if trending %}
+    <section class="box">
+      <h2>Trending</h2>
+      <p class="sub">Picking up the most new coverage in the last few hours.</p>
+      <ol class="trend">
+        {% for t in trending %}
+        <li><div><a href="{{ t.story.link }}" rel="noopener" target="_blank">{{ t.story.headline }}</a>
+          <span class="n">{{ t.story.source_count }} sources, <b>+{{ t.new }} recently</b></span></div></li>
+        {% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+    {% if promos %}
+    <section class="box">
+      <h2>Sister titles</h2>
+      {% for p in promos %}
+      <a class="promo" href="{{ p.url }}" rel="noopener" target="_blank"><b>{{ p.name }}</b><span>{{ p.line }}</span><em>{{ p.cta }} &rarr;</em></a>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </aside>
+</div>
+{% else %}
+{{ self.main() }}
+{% endif %}
 </main>
 <footer>
   <div class="wrap">

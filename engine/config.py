@@ -23,6 +23,7 @@ class Source:
     paywall: bool = False
     standalone: bool = False
     confirm: bool = False
+    always_tech: bool = False
     uk_angle: bool = False
     google: bool = False
 

@@ -3,7 +3,7 @@
 
 site:
   name: All UK Tech
-  tagline: All of UK tech, ranked by who's covering it.
+  tagline: UK tech news, ranked by who's covering it.
   url: https://alluktech.com
   timezone: Europe/London
 
@@ -52,17 +52,20 @@ section_keywords:
   big-tech: [apple, google, alphabet, meta, facebook, instagram, whatsapp, amazon, microsoft, nvidia, tiktok, tesla,
              netflix, twitter, musk, samsung, arm holdings, spacex, starlink, iphone, android]
 
-# A story must mention at least one of these (or any section keyword above) to count as tech.
-# Stops general news from the BBC, Guardian and City AM feeds getting in.
+# A story must mention at least one of these, or a keyword from the sections in tech_sections,
+# to count as tech. Stops general news from the BBC, Guardian and City AM feeds getting in.
+# (Funding and Policy words like "founder" or "court" are too general to prove a story is tech.)
+tech_sections: [ai, security, big-tech]
 tech_keywords: [tech, technology, software, app, apps, digital, online, internet, website, websites, data centre,
                 data centres, datacentre, cloud, broadband, fibre, 5g, mobile network, telecoms, chip, chips,
                 semiconductor, semiconductors, quantum, robot, robots, robotics, fintech, insurtech, healthtech,
-                edtech, proptech, smartphone, smartphones, computer, computers, computing, platform, platforms,
+                edtech, proptech, smartphone, smartphones, phone, phones, computer, computers, computing, platform, platforms,
                 social media, streaming, satellite, satellites, space, crypto, bitcoin, blockchain, stablecoin,
                 gaming, video game, video games, console, electric vehicle, electric vehicles, ev, evs, battery,
                 batteries, autonomous, self-driving, drone, drones, algorithm, algorithms, data, privacy, encryption,
                 developer, developers, coding, open source, saas, e-commerce, ecommerce, payments, wearable, gadget,
-                gadgets, laptop, laptops, tablet, iphone, android, ai]
+                gadgets, laptop, laptops, tablet, iphone, android, ai, startup, startups, start-up, scaleup, scaleups,
+                scale-up, unicorn, venture capital, vc, tech firm, tech company]
 
 # Stories matching these never appear.
 exclude:
@@ -101,6 +104,29 @@ uk:
   # Tier 1 and 2 UK outlets get this relevance floor (most of what they run is UK-relevant
   # even when the headline doesn't say so). Set to 1 to make them prove it like everyone else.
   uk_outlet_floor: 2
+
+# Sidebar: trending stories, then promos for sister titles. Edit freely.
+trending:
+  window_hours: 6        # a story trends when outlets have joined it this recently
+  min_new_outlets: 2
+  max: 6
+promos:
+  - name: AI Prompt Hackers
+    url: https://aiprompthackers.com
+    line: Prompts and workflows that make AI earn its keep. Join 32,000 readers.
+    cta: Read free
+  - name: Answerable
+    url: https://readanswerable.com
+    line: How to run AI inside a business without getting caught out by the rules.
+    cta: Read free
+  - name: Use Case Archive
+    url: https://usecasearchive.com
+    line: Real ways small businesses are using AI, all in one place.
+    cta: Browse
+  - name: AI Act Triage
+    url: https://aiacttriage.com
+    line: See where your AI system sits under the EU AI Act before you call an adviser.
+    cta: Try it
 
 scoring:
   coverage_cap: 15

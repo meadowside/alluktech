@@ -44,6 +44,19 @@ def _with_why(stories: list[Story], cfg: Config) -> None:
 
 # ---------------------------------------------------------------- site
 
+def trending(stories: list[Story], cfg: Config, now: datetime) -> list[dict]:
+    """Stories picking up new outlets fastest right now."""
+    t = cfg.rules.get("trending", {})
+    since = now - timedelta(hours=t.get("window_hours", 6))
+    rows = []
+    for s in stories:
+        new = sum(1 for o in s.outlets.values() if min(parse_iso(i["published"]) for i in o.items) >= since)
+        if new >= t.get("min_new_outlets", 2):
+            rows.append({"story": s, "new": new})
+    rows.sort(key=lambda r: (r["new"], r["story"].coverage), reverse=True)
+    return rows[: t.get("max", 6)]
+
+
 def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Path,
                email_archive: Path | None = None) -> dict:
     global _NOW
@@ -68,15 +81,17 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
         "nav": [(s["id"], s["name"]) for s in cfg.sections],
         "updated": local.strftime("%-d %b %Y, %H:%M"),
         "year": local.year,
+        "trending": trending([s for s in live if s is not top], cfg, now),
+        "promos": cfg.rules.get("promos", []),
     }
     env = _env()
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(
-        env.get_template("index.html").render(**ctx, top=top, sections=sections, page="home"), encoding="utf-8"
+        env.get_template("index.html").render(**ctx, top=top, sections=sections, page="home", sidebar=True), encoding="utf-8"
     )
     for sec in sections:  # the home page shows the first 5 of each; the section page shows them all
         (out / f"{sec['id']}.html").write_text(
-            env.get_template("section.html").render(**ctx, section=sec, stories=sec["stories"], page=sec["id"]),
+            env.get_template("section.html").render(**ctx, section=sec, stories=sec["stories"], page=sec["id"], sidebar=True),
             encoding="utf-8",
         )
 

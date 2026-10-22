@@ -148,9 +148,18 @@ def cluster(items: list, cfg: Config) -> list[list]:
     return [[items[i] for i in g["idx"]] for g in groups]
 
 
+def _keep(item, cfg: Config, rules: Rules) -> bool:
+    """Regulator feeds publish plenty that isn't tech (office moves, fines on accountants).
+    Their items only count when the headline itself is about tech."""
+    src = cfg.by_id.get(item["outlet_id"]) if item["outlet_id"] else None
+    if src and src.tier == 4 and src.standalone and not src.always_tech:
+        return rules.is_tech(item["title"])
+    return True
+
+
 def build_stories(db: DB, cfg: Config, rules: Rules, now: datetime) -> list[Story]:
     since = now - timedelta(hours=cfg.clustering["close_after_hours"])
-    items = db.items_since(since)
+    items = [i for i in db.items_since(since) if _keep(i, cfg, rules)]
     stories = [_make_story(group, cfg, rules, now) for group in cluster(items, cfg)]
     stories.sort(key=lambda s: s.score, reverse=True)
     return stories
@@ -181,7 +190,8 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
     coverage = max(s.coverage, sc["exclusive_floor"]) if s.exclusive else s.coverage
 
     # Eligibility.
-    if not any(rules.is_tech(f"{i['title']}. {i['summary'] or ''}") for i in group):
+    always = any(o.source and o.source.always_tech for o in outlets.values())
+    if not always and not any(rules.is_tech(f"{i['title']}. {i['summary'] or ''}") for i in group):
         s.eligible, s.why_not = False, "not a tech story"
     elif all(o.source and o.source.confirm for o in outlets.values()):
         s.eligible, s.why_not = False, "primary source with no outlet coverage yet"
@@ -234,9 +244,26 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
     s.link_outlet, s.link = options[0]
     s.paywall = bool(s.link_outlet.source and s.link_outlet.source.paywall)
 
-    link_item = next((i for i in s.link_outlet.items if i["url"] == s.link), lead_item)
-    s.teaser = first_sentence(link_item["summary"] or lead_item["summary"] or "", s.headline)
+    s.teaser = best_teaser(group, s.headline)
     return s
+
+
+WORD_RE = re.compile(r"[a-z0-9£$]+")
+
+
+def best_teaser(group: list, headline: str) -> str:
+    """The summary that shares most words with the headline. Roundup posts often carry a summary
+    about a different story, so the link's own summary can't be trusted."""
+    head = {w for w in WORD_RE.findall(headline.lower()) if len(w) > 3}
+    best, best_overlap = "", 0
+    for i in group:
+        if "news.google.com" in i["url"]:  # Google's "summary" is just the headline again
+            continue
+        text = first_sentence(i["summary"] or "", headline)
+        overlap = len(head & set(WORD_RE.findall(text.lower())))
+        if overlap > best_overlap:
+            best, best_overlap = text, overlap
+    return best if best_overlap >= 2 else ""
 
 
 def first_sentence(text: str, headline: str, limit: int = 180) -> str:

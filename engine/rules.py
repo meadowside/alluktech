@@ -31,11 +31,12 @@ class Rules:
         self.section_order = cfg.section_ids
         self.section_res = {sid: _phrase_regex(words) for sid, words in r["section_keywords"].items()}
         self.tech_re = _phrase_regex(r.get("tech_keywords", []))
+        self.tech_sections = r.get("tech_sections", list(self.section_res))
 
     def is_tech(self, text: str) -> bool:
         if self.tech_re and self.tech_re.search(text):
             return True
-        return any(rx and rx.search(text) for rx in self.section_res.values())
+        return any(self.section_res.get(sid) and self.section_res[sid].search(text) for sid in self.tech_sections)
 
     # ---------- exclusions ----------
     def exclusion_reason(self, title: str, url: str) -> str | None:

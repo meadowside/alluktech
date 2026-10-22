@@ -5,6 +5,7 @@
 # sections:  where this source's stories usually belong (a hint, keywords win)
 # paywall:   true adds a £ tag when we have to link it
 # standalone: a primary source that can run with no outlet coverage (regulators)
+# always_tech: every item counts as tech, even if the headline doesn't say so
 # confirm:   a primary source that needs one outlet to cover the story too
 # uk_angle:  true means the story only counts if it has a UK angle
 # domain:    used to match Google News items back to this outlet
@@ -257,6 +258,7 @@ sources:
     tier: 4
     weight: 1
     standalone: true
+    always_tech: true   # everything it publishes is tech
     sections: [security]
 
   - id: dsit
@@ -270,7 +272,7 @@ sources:
 
   - id: ico
     name: ICO
-    url: https://news.google.com/rss/search?q=site:ico.org.uk+when:2d&hl=en-GB&gl=GB&ceid=GB:en
+    url: https://news.google.com/rss/search?q=site:ico.org.uk/about-the-ico/media-centre/news-and-blogs+when:2d&hl=en-GB&gl=GB&ceid=GB:en
     domain: ico.org.uk
     google: true
     tier: 4
@@ -313,6 +315,7 @@ sources:
     tier: 4
     weight: 1
     standalone: true
+    always_tech: true   # everything it publishes is tech
     sections: [ai, policy]
 
   - id: deepmind

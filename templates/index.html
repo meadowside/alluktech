@@ -3,7 +3,7 @@
 {% block main %}
 {% if top %}
 <article class="sotd">
-  <div class="label">Story of the day</div>
+  <div class="label">Top story</div>
   {{ meta(top) }}
   <h1><a href="{{ top.link }}" rel="noopener" target="_blank">{{ top.headline }}</a></h1>
   {% if top.teaser %}<p class="teaser">{{ top.teaser }}</p>{% endif %}

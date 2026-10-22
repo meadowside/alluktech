@@ -1,0 +1,59 @@
+name: Hourly run
+
+# Every hour at :31. Fetches feeds, ranks stories and republishes the site.
+# In the 6am UK hour on weekdays it also builds the email; at 8am, 12pm and 6pm it posts to Facebook.
+on:
+  schedule:
+    - cron: "31 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write    # to save the database back to the repo
+  pages: write       # to publish the site
+  id-token: write
+
+concurrency:
+  group: engine
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Run the engine
+        run: python run.py auto
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Save the database
+        run: |
+          git config user.name "All UK Tech bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data
+          git commit -m "Data update $(date -u +%Y-%m-%dT%H:%MZ)" || echo "Nothing new to save"
+          git push
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4

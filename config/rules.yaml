@@ -1,0 +1,118 @@
+# All UK Tech: rules
+# Edit these lists freely. Matching is case-insensitive and on whole words.
+
+site:
+  name: All UK Tech
+  tagline: All of UK tech, ranked by who's covering it.
+  url: https://alluktech.com
+  timezone: Europe/London
+
+# Order here is the order on the site and in the email.
+# email_min / email_max: a section with fewer than email_min items runs short, never padded.
+sections:
+  - id: ai
+    name: AI
+    email_min: 4
+    email_max: 6
+    site_max: 10
+  - id: funding
+    name: Startups & Funding
+    email_min: 4
+    email_max: 6
+    site_max: 10
+  - id: big-tech
+    name: Big Tech in the UK
+    email_min: 3
+    email_max: 4
+    site_max: 10
+  - id: policy
+    name: Policy & Regulation
+    email_min: 3
+    email_max: 4
+    site_max: 10
+  - id: security
+    name: Security
+    email_min: 2
+    email_max: 3
+    site_max: 8
+
+# Keywords that pull a story into a section. When several match,
+# the section with the most hits wins; ties go to the first in this list.
+section_keywords:
+  security: [breach, breached, hack, hacked, hackers, ransomware, cyber, cyberattack, cyber-attack, cybersecurity,
+             vulnerability, vulnerabilities, malware, phishing, data leak, ncsc, exploit, zero-day, ddos, spyware, scam, scammers]
+  policy: [ofcom, ico, cma, fca, regulator, regulators, regulation, law, minister, ministers, government,
+           parliament, mps, fined, consultation, dsit, online safety, online safety act, competition watchdog, watchdog,
+           investigation, probe, ban, banned, ruling, tribunal, court, lawsuit, policy, budget]
+  funding: [raises, raised, funding, funding round, seed, series a, series b, series c, series d, valuation, unicorn,
+            investors, acquires, acquired, acquisition, takeover, ipo, listing, layoffs, job cuts, redundancies, startup,
+            start-up, scaleup, scale-up, founder, founders, venture capital, vc]
+  ai: [ai, artificial intelligence, llm, llms, chatbot, chatbots, openai, deepmind, anthropic, chatgpt, gemini, claude,
+       copilot, machine learning, generative, agentic, gpu, gpus, superintelligence, aisi, ai models]
+  big-tech: [apple, google, alphabet, meta, facebook, instagram, whatsapp, amazon, microsoft, nvidia, tiktok, tesla,
+             netflix, twitter, musk, samsung, arm holdings, spacex, starlink, iphone, android]
+
+# Stories matching these never appear.
+exclude:
+  url_patterns: [/deals/, /deal/, /best-, /buying-guide, /coupon, /voucher, /promo, /sponsored/, /partner-content/,
+                 /advertorial/, /quiz/, /quizzes/, /podcast/, /video/, /live/, /obituar]
+  # Phrases, matched anywhere in the title. Kept narrow on purpose: "deal" or "review" on
+  # their own would also kill real news ("Arm agrees £2bn deal", "CMA review of Microsoft").
+  title_keywords: ["deals:", "best deals", "deal of the day", "black friday", "prime day", "cyber monday", discount,
+                   "% off", voucher, coupon, "best ", "top 10", "top ten", "review:", "hands-on", "hands on:",
+                   "how to", "what is", "explained", quiz, sponsored, "in partnership with", "partner content",
+                   podcast, "live:", "as it happened", "week in review", "the week in", webinar, "opinion:",
+                   "comment:", "letters:"]
+  # Reviews of UK launches are allowed if the title also has one of these.
+  title_keyword_exceptions: [launch, launches, launched, available in the uk, uk release]
+
+# UK relevance signals.
+uk:
+  # Strong: a UK company, regulator, institution or place named. Scores 3.
+  strong: [ofcom, ico, cma, fca, ncsc, dsit, hmrc, bank of england, nhs, ministry of defence, gchq, met police,
+           downing street, westminster, whitehall, house of commons, house of lords, uk government,
+           british government, uk parliament, starmer, uk-based, london-based, british firm,
+           british company, british startup, uk startup, uk firm, uk company, uk tech, uk's, britain's,
+           london, manchester, cambridge, oxford, edinburgh, glasgow, leeds, bristol, birmingham, belfast, cardiff,
+           newcastle, sheffield, liverpool, nottingham, scotland, scottish, wales, welsh, northern ireland,
+           yorkshire, shoreditch,
+           arm holdings, deepmind, monzo, revolut, starling bank, darktrace, ocado, deliveroo, octopus energy, oaknorth,
+           checkout.com, gocardless, zopa, synthesia, wayve, stability ai, graphcore, improbable, bt group, vodafone,
+           virgin media, openreach, rolls-royce, bae systems, astrazeneca, tesco, sainsbury's,
+           marks and spencer, jaguar land rover, john lewis, royal mail, network rail,
+           lloyds, natwest, barclays, hsbc, london stock exchange, raspberry pi, isomorphic labs,
+           multiverse, zilch, quantexa, onfido, thg, boohoo, asos, rightmove,
+           autotrader, just eat, trainline, matillion, featurespace, cytora, faculty ai]
+  # Weak: the UK is mentioned. Scores 2. (£ is matched anywhere in the text.)
+  weak: [uk, britain, british, "£"]
+  # Tier 1 and 2 UK outlets get this relevance floor (most of what they run is UK-relevant
+  # even when the headline doesn't say so). Set to 1 to make them prove it like everyone else.
+  uk_outlet_floor: 2
+
+scoring:
+  coverage_cap: 15
+  freshness_half_life_hours: 12
+  regulator_bonus: 2
+  exclusive_floor: 4
+  global_min_coverage: 12     # a story with no UK angle runs only above this coverage
+  global_max_per_email: 2
+  max_links_per_outlet_email: 2
+  repeat_growth_needed: 0.5   # a story sent before returns only if coverage grew by half
+
+clustering:
+  window_hours: 36            # an item joins a cluster only if the cluster had an item this recently
+  close_after_hours: 72       # clusters older than this stop growing
+  # Word-based similarity between 0 and 1. Tune after a week of real data using site/status.html:
+  # the same story listed twice -> lower these; two different stories merged -> raise them.
+  min_link_similarity: 0.15       # how close an item must be to its nearest story member
+  min_centroid_similarity: 0.08   # and to the story as a whole
+  merge_similarity: 0.15          # two finished stories this similar get merged into one
+
+email:
+  build_hour: 6               # UK time; the hourly job builds the email on its first run in this hour
+  weekdays_only: true
+
+facebook:
+  post_hours: [8, 12, 18]     # UK time
+  section: ai
+  min_relevance: 2

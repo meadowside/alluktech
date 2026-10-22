@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_macros.html" import story_li %}
+{% block title %}{{ section.name }}: {{ site.name }}{% endblock %}
+{% block main %}
+<div class="page-head">
+  <h1>{{ section.name }}</h1>
+  <p>Ranked by how many outlets are covering each story, freshest first when it's close.</p>
+</div>
+<section class="section">
+  {% if stories %}
+  <ol class="stories">{% for s in stories %}{{ story_li(s, true) }}{% endfor %}</ol>
+  {% else %}<p class="empty">Quiet so far today.</p>{% endif %}
+</section>
+<div class="signup">
+  <p><b>The top UK tech stories in your inbox at 7am, Monday to Friday.</b> Free, four minutes to read.</p>
+  <a class="btn" href="https://alluktech.substack.com" rel="noopener">Get the email</a>
+</div>
+{% endblock %}

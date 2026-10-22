@@ -1,0 +1,23 @@
+{% macro favicon(outlet) -%}
+{% if outlet.domain %}<img src="https://www.google.com/s2/favicons?domain={{ outlet.domain }}&sz=32" alt="" loading="lazy">{% endif %}
+{%- endmacro %}
+
+{% macro meta(s) -%}
+<div class="meta">
+  {{ favicon(s.link_outlet) }}<span class="outlet">{{ s.link_outlet.name }}</span>
+  <span class="dot">·</span><span>{{ s.last_seen | ago }}</span>
+  {% if s.source_count > 1 %}<span class="dot">·</span><span class="sources">{{ s.source_count }} sources</span>{% endif %}
+  {% if s.source_count >= 8 %}<span class="tag hot">Hot</span>{% endif %}
+  {% if s.paywall %}<span class="tag" title="Paywalled">£</span>{% endif %}
+  {% if s.is_global %}<span class="tag">Global</span>{% endif %}
+  {% if s.exclusive %}<span class="tag">Exclusive</span>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro story_li(s, lead=false) -%}
+<li class="{{ 'lead' if lead }}">
+  {{ meta(s) }}
+  <h3><a href="{{ s.link }}" rel="noopener" target="_blank">{{ s.headline }}</a></h3>
+  {% if lead and s.teaser %}<p class="teaser">{{ s.teaser }}</p>{% endif %}
+</li>
+{%- endmacro %}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site.name }}: {{ site.tagline }}{% endblock %}</title>
+<meta name="description" content="{{ site.tagline }} Updated every hour.">
+{% block head %}{% endblock %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #faf9f6; --card: #ffffff; --ink: #15171b; --muted: #5f6672; --rule: #e4e1d9;
+  --accent: #c8102e; --navy: #012169; --chip: #f1efe9; --tag-bg: #fdecef; --tag-ink: #9b0d24;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #111214; --card: #191b1f; --ink: #ecebe7; --muted: #9aa0aa; --rule: #2b2e34;
+    --accent: #ff4d63; --navy: #8fa8ff; --chip: #22252a; --tag-bg: #3a1a20; --tag-ink: #ff9aa8;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+header.top { border-bottom: 1px solid var(--rule); background: var(--card); }
+.masthead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 18px 0 10px; flex-wrap: wrap; }
+.brand { font: 700 30px/1 var(--serif); letter-spacing: -0.5px; }
+.brand .uk { color: var(--accent); }
+.tagline { color: var(--muted); font-size: 14px; }
+.updated { color: var(--muted); font-size: 13px; }
+nav.sections { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 14px; scrollbar-width: none; }
+nav.sections a { white-space: nowrap; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--chip); }
+nav.sections a.on { background: var(--ink); color: var(--paper); }
+nav.sections a:hover { text-decoration: none; }
+
+.meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; color: var(--muted); font-size: 12.5px; }
+.meta img { width: 16px; height: 16px; border-radius: 3px; }
+.meta .outlet { color: var(--ink); font-weight: 500; }
+.dot { opacity: .5; }
+.tag { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: var(--chip); color: var(--muted); }
+.tag.hot { background: var(--tag-bg); color: var(--tag-ink); }
+.sources { font-weight: 600; color: var(--ink); }
+
+main.wrap { padding-top: 24px; padding-bottom: 48px; }
+.sotd { background: var(--card); border: 1px solid var(--rule); border-top: 4px solid var(--accent); border-radius: 10px; padding: 22px 24px; margin-bottom: 28px; }
+.label { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.sotd h1 { font: 700 30px/1.2 var(--serif); margin: 10px 0 8px; letter-spacing: -0.3px; }
+.sotd .teaser { font-size: 16px; color: var(--muted); margin: 0 0 12px; max-width: 760px; }
+.why { font-size: 14px; margin: 0 0 14px; }
+.why b { font-weight: 600; }
+.more { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12.5px; color: var(--muted); }
+.more a { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 6px; background: var(--chip); border-radius: 999px; color: var(--ink); }
+.more img { width: 14px; height: 14px; border-radius: 3px; }
+
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.section { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px 8px; }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 4px; }
+.section-head h2 { font: 700 19px/1.2 var(--serif); margin: 0; }
+.section-head a { font-size: 12.5px; color: var(--muted); }
+ol.stories { list-style: none; margin: 0; padding: 0; }
+ol.stories li { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+ol.stories li:last-child { border-bottom: 0; }
+ol.stories h3 { font: 600 16.5px/1.35 var(--serif); margin: 6px 0 0; }
+ol.stories li.lead h3 { font-size: 19px; }
+ol.stories .teaser { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
+.empty { color: var(--muted); padding: 14px 0; font-size: 14px; }
+
+.page-head h1 { font: 700 28px/1.2 var(--serif); margin: 0 0 4px; }
+.page-head p { color: var(--muted); margin: 0 0 18px; }
+
+.signup { margin-top: 28px; background: var(--navy); color: #fff; border-radius: 10px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.signup p { margin: 0; font-size: 15px; }
+.signup a.btn { background: #fff; color: #012169; font-weight: 600; padding: 9px 16px; border-radius: 8px; white-space: nowrap; }
+footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: 12.5px; padding: 20px 0 32px; }
+
+table.status { width: 100%; border-collapse: collapse; background: var(--card); font-size: 13px; }
+table.status th, table.status td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.ok { color: #1a7f37; font-weight: 600; } .bad { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 760px) {
+  .grid { grid-template-columns: 1fr; }
+  .sotd { padding: 18px 16px; }
+  .sotd h1 { font-size: 24px; }
+  .section { padding: 16px 16px 6px; }
+  .brand { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="masthead">
+      <div>
+        <a class="brand" href="index.html">All <span class="uk">UK</span> Tech</a>
+        <div class="tagline">{{ site.tagline }}</div>
+      </div>
+      <div class="updated">Updated {{ updated }}</div>
+    </div>
+    <nav class="sections" aria-label="Sections">
+      <a href="index.html" class="{{ 'on' if page == 'home' }}">Top</a>
+      {% for id, name in nav %}<a href="{{ id }}.html" class="{{ 'on' if page == id }}">{{ name }}</a>{% endfor %}
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+{% block main %}{% endblock %}
+</main>
+<footer>
+  <div class="wrap">
+    Every headline links to the publisher that wrote it. {{ site.name }} ranks UK tech stories by how many outlets cover them, and refreshes every hour.
+    &copy; {{ year }} {{ site.name }}.
+  </div>
+</footer>
+</body>
+</html>

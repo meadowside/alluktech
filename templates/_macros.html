@@ -6,8 +6,8 @@
 <span class="src">{{ favicon(s.link_outlet) }}{{ s.link_outlet.name }}<span class="dot">·</span>{{ s.last_seen | ago }}{% if s.paywall %}<span class="tag" title="Paywalled">£</span>{% endif %}{% if s.is_global %}<span class="tag">Global</span>{% endif %}{% if s.exclusive %}<span class="tag">Exclusive</span>{% endif %}</span>
 {%- endmacro %}
 
-{% macro row(s, n) -%}
-<li class="row">
+{% macro row(s, n, anchor=true) -%}
+<li class="row"{% if anchor %} id="s{{ s.key }}"{% endif %}>
   <span class="rank">{{ n }}</span>
   <div class="row-body">
     <a class="hl" href="{{ s.link }}" rel="noopener" target="_blank">{{ s.headline }}</a>

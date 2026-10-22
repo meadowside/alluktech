@@ -82,7 +82,7 @@ def main():
         ):
             story = facebook.pick(stories, db, fb["section"], fb["min_relevance"])
             if story:
-                print(f"  facebook: {story.headline} -> {facebook.post(story, db, now)}")
+                print(f"  facebook: {story.headline} -> {facebook.post(story, db, now, cfg.site["url"])}")
             else:
                 print("  facebook: nothing new to post")
         if llm.enabled():

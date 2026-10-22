@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{{ site.name }}: {{ site.tagline }}{% endblock %}</title>
 <meta name="description" content="{{ site.tagline }} Updated every hour.">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% block og_title %}{{ site.name }}: {{ site.tagline }}{% endblock %}">
+<meta property="og:description" content="The UK tech stories the most outlets are covering, ranked and updated every hour.">
+<meta property="og:url" content="{{ site.url }}/{{ page if page not in ('home', None) else 'index' }}.html">
+<meta name="twitter:card" content="summary">
 <script>
   // Light by default; remember the reader's choice if they switch.
   try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}
@@ -89,6 +95,7 @@ main.wrap { padding-top: 24px; padding-bottom: 48px; }
 ol.ranked { list-style: none; margin: 0; padding: 0; }
 .row { display: grid; grid-template-columns: 26px minmax(0, 1fr) 46px; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: start; }
 .row:last-child { border-bottom: 0; }
+.row:target { background: var(--accent-soft); margin: 0 -12px; padding: 12px; border-radius: 8px; scroll-margin-top: 16px; }
 .rank { font: 700 18px/1.2 var(--serif); color: var(--muted); }
 .row:first-child .rank { color: var(--accent); }
 .hl { display: block; font: 600 16px/1.35 var(--serif); margin-bottom: 4px; }

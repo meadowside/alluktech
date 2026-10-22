@@ -46,7 +46,7 @@ From then on it runs by itself every hour at :31.
 | --- | --- |
 | `ANTHROPIC_API_KEY` | AI-written "So what" lines under the stories on the home page (top story plus the top 6 in each section) and in the email. Each story is written once and saved, so repeat builds cost nothing. Capped at 25 new lines an hour and 150 a day (`ai_lines` in `config/rules.yaml`). Without a key the site simply shows no line. Set `LLM_MODEL` to change model. |
 | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` | A message to your phone when the email is ready. |
-| `FB_PAGE_ID`, `FB_PAGE_TOKEN` | Real Facebook posts. Without them the run log shows what it *would* have posted, so you can check its picks first. The token is a long-lived Page access token with `pages_manage_posts`, from a Meta developer app you own. |
+| `FB_PAGE_ID`, `FB_PAGE_TOKEN` | Real Facebook posts at 8am, 12pm and 6pm: the top new AI story's headline, its "So what" line and the outlet count, linking to the story on alluktech.com. Without them, `data/last_run.log` shows the exact post it *would* have made, so you can check its picks first. The token is a long-lived Page access token with `pages_manage_posts`, from a Meta developer app you own. |
 
 ## Your morning
 

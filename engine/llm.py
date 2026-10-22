@@ -36,7 +36,11 @@ def why_it_matters(headline: str, snippets: list[str]) -> str | None:
         return None
     body = {
         "model": os.environ.get("LLM_MODEL", DEFAULT_MODEL),
-        "max_tokens": 120,
+        "max_tokens": 200,
+        # Haiku 5.5 thinks by default and the thinking counts against max_tokens, which left
+        # replies empty. One plain sentence needs no thinking.
+        "thinking": {"type": "disabled"},
+        "output_config": {"effort": "low"},
         "messages": [{
             "role": "user",
             "content": PROMPT.format(headline=headline, snippets="\n".join(f"- {s}" for s in snippets[:5] if s)),
@@ -57,6 +61,8 @@ def why_it_matters(headline: str, snippets: list[str]) -> str | None:
         return None
     text = clean_line(raw)
     reason = reject_reason(text)
+    if reason == "empty":
+        reason = f"empty, stop_reason={data.get('stop_reason')}, blocks={[b.get('type') for b in data.get('content', [])]}"
     if reason:
         STATS["rejected"] += 1
         print(f"  AI line rejected ({reason}): {raw.strip()[:140]!r}")

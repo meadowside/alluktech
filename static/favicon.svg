@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="13" fill="#0b7a4b"/>
+  <text x="8" y="32" font-family="'Source Serif 4', Georgia, 'Times New Roman', serif" font-weight="700" font-size="28" letter-spacing="-1.2" fill="#ffffff">UK</text>
+  <rect x="8" y="39" width="47" height="5.5" rx="2.75" fill="#b8f0d2"/>
+  <rect x="8" y="47" width="33" height="5.5" rx="2.75" fill="#b8f0d2" fill-opacity="0.75"/>
+  <rect x="8" y="55" width="20" height="5.5" rx="2.75" fill="#b8f0d2" fill-opacity="0.5"/>
+</svg>

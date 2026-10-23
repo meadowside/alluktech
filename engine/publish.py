@@ -174,6 +174,12 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
     host = cfg.site["url"].split("://", 1)[-1].strip("/")
     (out / "CNAME").write_text(host + "\n", encoding="utf-8")
     (out / ".nojekyll").write_text("", encoding="utf-8")
+    # Favicons and logo files, copied as they are.
+    static = ROOT / "static"
+    if static.is_dir():
+        for f in static.iterdir():
+            if f.is_file():
+                (out / f.name).write_bytes(f.read_bytes())
     return {"live": len(live), "top": top.headline if top else None, "new_ai_lines": new_lines}
 
 

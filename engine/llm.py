@@ -75,22 +75,63 @@ def why_it_matters(headline: str, snippets: list[str]) -> str | None:
 STATS = {"ok": 0, "rejected": 0, "failed": 0}
 
 
-def clean_line(raw: str) -> str:
-    """Keep the first paragraph only. The model sometimes adds a note to itself after the sentence."""
-    first = next((p for p in raw.strip().split("\n") if p.strip()), "")
-    return first.strip().strip('"').strip()
+TITLE_PROMPT = """You suggest email subject lines for All UK Tech, a weekday UK tech news email on Substack.
+Readers are UK founders, developers and IT people.
+
+Today's top story ({sources} outlets covering it): {top}
+Other lead stories:
+{others}
+
+Write THREE different subject lines, one per line, no numbering, no quotes.
+Each 60 characters or fewer. Plain British English. Specific, not clickbait.
+Lead with the top story in at least two of them. One may combine two stories.
+No dashes, no semicolons, no hype words, no questions answered in the same line.
+Reply with the three lines only."""
 
 
-def reject_reason(text: str) -> str | None:
-    if not text:
-        return "empty"
-    words = len(text.split())
-    if words > 35:
-        return f"{words} words"
-    low = text.lower()
-    hit = next((b for b in BANNED if b in low), None)
-    if hit:
-        return f"banned: {hit}"
-    if not text.endswith((".", "!", "?")):
-        return "unfinished sentence"
-    return None
+def email_titles(top: str, sources: int, others: list[str]) -> list[str]:
+    """Three subject line ideas for the day's email. One cheap call per build."""
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if not key or not top:
+        return []
+    body = {
+        "model": os.environ.get("LLM_MODEL", DEFAULT_MODEL),
+        "max_tokens": 200,
+        "thinking": {"type": "disabled"},
+        "output_config": {"effort": "low"},
+        "messages": [{"role": "user", "content": TITLE_PROMPT.format(
+            top=top, sources=sources, others="\n".join(f"- {o}" for o in others[:5]))}],
+    }
+    req = urllib.request.Request(
+        API_URL, data=json.dumps(body).encode(),
+        headers={"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.load(resp)
+        raw = "".join(b.get("text", "") for b in data.get("content", []))
+    except Exception as e:
+        print(f"  AI titles failed: {e}")
+        return []
+    out = []
+    for line in raw.splitlines():
+        t = line.strip().lstrip("-*0123456789.) ").strip().strip('"').strip()
+        low = t.lower()
+        if not t or len(t) > 80 or any(b in low for b in BANNED) or "–" in t or ";" in t:
+            continue
+        out.append(t)
+    return out[:3]
+
+
+def fallback_titles(top: str, sources: int, second: str | None) -> list[str]:
+    """Used when the AI call is off or fails, so there are always three."""
+    if not top:
+        return []
+    short = top.split(",")[0].split(":")[0].strip()
+    titles = [top]
+    if second and len(short) + len(second) < 85:
+        titles.append(f"{short}, plus {second[0].lower() + second[1:]}")
+    elif second:
+        titles.append(second)
+    titles.append(f"{sources} outlets on one story: {short}" if sources > 1 else f"UK tech today: {short}")
+    return titles[:3]

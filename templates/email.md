@@ -1,7 +1,12 @@
 {#- The daily email as Markdown, for Andy to edit and paste into Substack.
     Kept simple on purpose: the Desktop "Copy for Substack" button converts exactly these
     pieces (## headings, - bullets, **bold**, *italic*, [links](url)) into formatting. -#}
-All UK Tech, {{ date_long }}
+{% if titles %}TITLE IDEAS (pick one for the Substack title, then delete these lines)
+{% for t in titles %}{{ loop.index }}. {{ t }}
+{% endfor %}
+---
+
+{% endif %}All UK Tech, {{ date_long }}
 
 [Your opening note: two or three sentences on what's big today.]
 

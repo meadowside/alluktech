@@ -10,6 +10,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 from .config import Config, Source
 from .db import DB, parse_iso
+from .fetch import outlet_label
 from .rules import Rules
 
 # Which outlet's headline and link we prefer: national, then UK specialist, global, primary, backfill.
@@ -98,7 +99,7 @@ class Story:
 
 
 def _outlet_key(item) -> str:
-    return item["outlet_id"] or f"name:{item['outlet_name'].lower()}"
+    return item["outlet_id"] or f"name:{outlet_label(item['outlet_name']).lower()}"
 
 
 def cluster(items: list, cfg: Config) -> list[list]:
@@ -187,7 +188,7 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
         k = _outlet_key(item)
         if k not in outlets:
             src = cfg.by_id.get(item["outlet_id"]) if item["outlet_id"] else None
-            outlets[k] = Outlet(key=k, name=item["outlet_name"], source=src)
+            outlets[k] = Outlet(key=k, name=outlet_label(item["outlet_name"]), source=src)
         outlets[k].items.append(item)
 
     times = [parse_iso(i["published"]) for i in group]

@@ -253,10 +253,20 @@ def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: P
         if sec["stories"] and sec["stories"][0].so_what:
             sec["stories"][0].why = sec["stories"][0].so_what
 
+    # Three subject line ideas, always. AI when the key is set, simple fallbacks otherwise.
+    lead = top or (picks[0] if picks else None)
+    titles: list[str] = []
+    if lead:
+        others = [p.headline for p in picks if p is not lead]
+        titles = llm.email_titles(lead.headline, lead.source_count, others)
+        if len(titles) < 3:
+            extra = llm.fallback_titles(lead.headline, lead.source_count, others[0] if others else None)
+            titles += [t for t in extra if t not in titles][: 3 - len(titles)]
+
     local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
     date = local.strftime("%Y-%m-%d")
     env = _env()
-    args = dict(site=cfg.site, top=top, sections=picked["sections"],
+    args = dict(site=cfg.site, top=top, sections=picked["sections"], titles=titles,
                 date_long=local.strftime("%A %-d %B %Y"), date=date)
     html = env.get_template("email.html").render(**args)
     md = env.get_template("email.md").render(**args).strip() + "\n"

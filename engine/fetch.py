@@ -39,14 +39,24 @@ def _entry_time(entry, fallback: datetime) -> datetime:
     return fallback
 
 
+def outlet_label(name: str) -> str:
+    """Google sometimes gives the outlet as a bare URL ("https://example.co.uk/"). Show the domain."""
+    n = (name or "").strip()
+    if n.lower().startswith(("http://", "https://")) or re.fullmatch(r"[\w.-]+\.[a-z]{2,}(/\S*)?", n, re.I):
+        n = re.sub(r"^https?://", "", n, flags=re.I).split("/")[0]
+        n = re.sub(r"^www\.", "", n, flags=re.I)
+    return n
+
+
 def _google_outlet(entry, cfg: Config, feed_source: Source) -> tuple[str | None, str, str]:
     """Google News items name the real outlet in <source>. Returns (outlet_id, outlet_name, clean title)."""
     title = clean(entry.get("title"))
     src = entry.get("source") or {}
-    outlet_name = clean(src.get("title")) or feed_source.name
+    raw_name = clean(src.get("title")) or feed_source.name
     # Google appends " - Outlet" to the title.
-    if outlet_name and title.endswith(" - " + outlet_name):
-        title = title[: -len(" - " + outlet_name)].strip()
+    if raw_name and title.endswith(" - " + raw_name):
+        title = title[: -len(" - " + raw_name)].strip()
+    outlet_name = outlet_label(raw_name)
     matched = cfg.source_for_url(src.get("href", ""))
     if matched:
         return matched.id, matched.name, title

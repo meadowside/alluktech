@@ -1,19 +1,7 @@
-All UK Tech run: email at Fri 23 Oct 10:05 UK time
-  feeds: 37/40 worked, 11 new items (0 excluded by rules)
+All UK Tech run: email at Fri 23 Oct 10:07 UK time
+  feeds: 38/40 worked, 1 new items (0 excluded by rules)
   stories: 612 grouped, 285 pass the UK and quality rules
-Traceback (most recent call last):
-  File "/home/runner/work/alluktech/alluktech/run.py", line 96, in <module>
-    main()
-  File "/home/runner/work/alluktech/alluktech/run.py", line 57, in main
-    site = build_site(stories, db, cfg, now, args.out, archive)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/alluktech/alluktech/engine/publish.py", line 122, in build_site
-    new_lines = add_so_what(wanted, live, db, cfg, now)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/alluktech/alluktech/engine/publish.py", line 89, in add_so_what
-    line = llm.why_it_matters(s.headline, snippets)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/alluktech/alluktech/engine/llm.py", line 63, in why_it_matters
-    text = clean_line(raw)
-           ^^^^^^^^^^
-NameError: name 'clean_line' is not defined
+  site: 245 stories live, 4 new AI lines. Top: Prepare for supply chain disruption from cyber or climate emergencies, Streeting warns
+  email: 35 stories, 0 new AI lines, short sections: Infrastructure
+  notify: skipped (no Telegram settings)
+  AI lines: 4 written, 0 rejected, 0 failed calls

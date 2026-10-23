@@ -17,32 +17,32 @@ sections:
   - id: ai
     name: AI
     email_min: 4
-    email_max: 6
+    email_max: 8
     site_max: 10
   - id: funding
     name: Startups & Funding
     email_min: 4
-    email_max: 6
+    email_max: 8
     site_max: 10
   - id: big-tech
     name: Big Tech in the UK
     email_min: 3
-    email_max: 4
+    email_max: 6
     site_max: 10
   - id: policy
     name: Policy & Regulation
     email_min: 3
-    email_max: 4
+    email_max: 6
     site_max: 10
   - id: infrastructure
     name: Infrastructure
     email_min: 2
-    email_max: 3
+    email_max: 5
     site_max: 8
   - id: security
     name: Security
     email_min: 2
-    email_max: 3
+    email_max: 5
     site_max: 8
 
 # Keywords that pull a story into a section. When several match,
@@ -93,7 +93,7 @@ exclude:
                    "how to", "what is", "explained", quiz, sponsored, "in partnership with", "partner content",
                    podcast, "live:", "as it happened", "week in review", "the week in", "weekly:", "roundup:",
                    "round-up:", "morning briefing", "evening briefing", webinar, "opinion:",
-                   "comment:", "letters:", "tech life"]
+                   "comment:", "letters:", "tech life", "| editorial", "the guardian view", "the times view", "the observer view", "ft view", "submit a question", "ask the experts", "your questions answered"]
   # Phrases that mark an item as a job advert or listing, checked in the summary too.
   # (Google News puts the source name in the summary: "... The Times Appointments".)
   summary_keywords: ["the times appointments", "times appointments", "apply now", "job description",

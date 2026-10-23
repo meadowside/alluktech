@@ -105,9 +105,15 @@ class DB:
         self.conn.execute("DELETE FROM why_lines WHERE created < ?", (cutoff,))
 
     # ----- sent stories -----
-    def sent_records(self) -> list[tuple[set[int], float]]:
-        rows = self.conn.execute("SELECT item_ids, coverage FROM sent").fetchall()
+    def sent_records(self, except_date: str | None = None) -> list[tuple[set[int], float]]:
+        """Stories already emailed. except_date leaves out that day's own email, so a rebuild
+        of today's email isn't emptied by today's first build."""
+        rows = self.conn.execute("SELECT item_ids, coverage FROM sent WHERE sent_date != ?",
+                                 (except_date or "",)).fetchall()
         return [(set(json.loads(r["item_ids"])), r["coverage"]) for r in rows]
+
+    def clear_sent(self, date: str):
+        self.conn.execute("DELETE FROM sent WHERE sent_date = ?", (date,))
 
     def record_sent(self, date: str, item_ids: list[int], coverage: float):
         self.conn.execute(

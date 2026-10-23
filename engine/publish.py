@@ -1,7 +1,6 @@
 """Builds the static site and the morning email."""
 from __future__ import annotations
 
-import shutil
 from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -19,12 +18,18 @@ PAGES_UPDATED = "22 October 2026"  # change when you edit the Privacy or Terms p
 
 
 def _env() -> Environment:
-    env = Environment(loader=FileSystemLoader(TEMPLATES), autoescape=select_autoescape(["html"]))
+    env = Environment(loader=FileSystemLoader(TEMPLATES), autoescape=select_autoescape(["html"], default_for_string=False, default=False))
     env.filters["ago"] = _ago
+    env.filters["md"] = _md
     return env
 
 
 _NOW: datetime | None = None
+
+
+def _md(text: str) -> str:
+    """Keep headline text from breaking the Markdown: square brackets and asterisks."""
+    return (text or "").replace("[", "(").replace("]", ")").replace("*", "")
 
 
 def _ago(dt: datetime) -> str:
@@ -164,16 +169,11 @@ def build_site(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Pa
                                                stories=stories[:40], total=len(stories)),
         encoding="utf-8",
     )
-    (out / "robots.txt").write_text("User-agent: *\nDisallow: /email/\nDisallow: /status.html\n", encoding="utf-8")
+    (out / "robots.txt").write_text("User-agent: *\nDisallow: /status.html\n", encoding="utf-8")
     # GitHub Pages: custom domain and no Jekyll processing.
     host = cfg.site["url"].split("://", 1)[-1].strip("/")
     (out / "CNAME").write_text(host + "\n", encoding="utf-8")
     (out / ".nojekyll").write_text("", encoding="utf-8")
-    # Past emails live with the database so they survive each fresh site build.
-    if email_archive and email_archive.exists():
-        (out / "email").mkdir(exist_ok=True)
-        for f in email_archive.glob("*.html"):
-            shutil.copy2(f, out / "email" / f.name)
     return {"live": len(live), "top": top.headline if top else None, "new_ai_lines": new_lines}
 
 
@@ -183,7 +183,7 @@ def select_email(stories: list[Story], db: DB, cfg: Config, now: datetime) -> di
     sc = cfg.scoring
     local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
     lookback = timedelta(hours=72 if local.weekday() == 0 else 26)  # Monday picks up the weekend
-    sent = db.sent_records()
+    sent = db.sent_records(except_date=local.strftime("%Y-%m-%d"))
 
     candidates = []
     for s in stories:
@@ -249,16 +249,19 @@ def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: P
 
     local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
     date = local.strftime("%Y-%m-%d")
-    html = _env().get_template("email.html").render(
-        site=cfg.site, top=top, sections=picked["sections"],
-        date_long=local.strftime("%A %-d %B %Y"), date=date,
-    )
-    for edir in (email_archive, out / "email"):
-        edir.mkdir(parents=True, exist_ok=True)
-        (edir / f"{date}.html").write_text(html, encoding="utf-8")
-        (edir / "latest.html").write_text(html, encoding="utf-8")
+    env = _env()
+    args = dict(site=cfg.site, top=top, sections=picked["sections"],
+                date_long=local.strftime("%A %-d %B %Y"), date=date)
+    html = env.get_template("email.html").render(**args)
+    md = env.get_template("email.md").render(**args).strip() + "\n"
+    # Saved with the data in the repo, not on the public site. Andy's Desktop button
+    # downloads the .md each morning.
+    email_archive.mkdir(parents=True, exist_ok=True)
+    for name, text in ((f"{date}.html", html), (f"{date}.md", md), ("latest.md", md)):
+        (email_archive / name).write_text(text, encoding="utf-8")
 
     chosen = ([top] if top else []) + [s for sec in picked["sections"] for s in sec["stories"]]
+    db.clear_sent(date)  # a rebuild replaces the day's record rather than adding to it
     for s in chosen:
         db.record_sent(date, s.item_ids, s.coverage)
     db.record_email(date, now)

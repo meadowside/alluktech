@@ -23,6 +23,7 @@ What the coverage says:
 Write ONE sentence, 25 words or fewer, saying why this matters to people working in UK tech.
 Plain British English. No hype. No dashes. Don't repeat the headline. Don't start with "This".
 If the coverage doesn't support a UK angle, say what it means in practical terms instead.
+Never mention the coverage, the sources, the article or what they leave out. Talk about the story.
 Reply with the sentence only."""
 
 

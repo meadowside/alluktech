@@ -1,5 +1,7 @@
-All UK Tech run: auto at Fri 23 Oct 07:33 UK time
-  feeds: 37/40 worked, 1 new items (0 excluded by rules)
-  stories: 586 grouped, 273 pass the UK and quality rules
-  site: 234 stories live, 0 new AI lines. Top: Websites taken down worldwide as critical cyber-security update issued
+All UK Tech run: email at Fri 23 Oct 07:42 UK time
+  feeds: 37/40 worked, 7 new items (0 excluded by rules)
+  stories: 588 grouped, 273 pass the UK and quality rules
+  site: 233 stories live, 0 new AI lines. Top: Websites taken down worldwide as critical cyber-security update issued
+  email: 35 stories, 0 new AI lines, short sections: Infrastructure
+  notify: skipped (no Telegram settings)
   AI lines: 0 written, 0 rejected, 0 failed calls

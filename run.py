@@ -67,8 +67,8 @@ def main():
             res = build_email(stories, db, cfg, now, args.out, archive)
             print(f"  email: {res['stories']} stories, {res['llm_lines']} new AI lines"
                   + (f", short sections: {', '.join(res['short_sections'])}" if res["short_sections"] else ""))
-            link = f"{cfg.site['url']}/email/{res['date']}.html"
-            message = f"All UK Tech email for {res['date']} is ready: {link}"
+            message = (f"All UK Tech email for {res['date']} is ready. "
+                       "Double-click 'Get today's email' in the All UK Tech Newsletter folder on your Desktop.")
             print(f"  notify: {notify.send(message)}")
 
         fb = cfg.rules["facebook"]

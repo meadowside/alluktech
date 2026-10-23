@@ -135,3 +135,24 @@ def fallback_titles(top: str, sources: int, second: str | None) -> list[str]:
         titles.append(second)
     titles.append(f"{sources} outlets on one story: {short}" if sources > 1 else f"UK tech today: {short}")
     return titles[:3]
+
+
+def clean_line(raw: str) -> str:
+    """Keep the first paragraph only. The model sometimes adds a note to itself after the sentence."""
+    first = next((p for p in raw.strip().split("\n") if p.strip()), "")
+    return first.strip().strip('"').strip()
+
+
+def reject_reason(text: str) -> str | None:
+    if not text:
+        return "empty"
+    words = len(text.split())
+    if words > 35:
+        return f"{words} words"
+    low = text.lower()
+    hit = next((b for b in BANNED if b in low), None)
+    if hit:
+        return f"banned: {hit}"
+    if not text.endswith((".", "!", "?")):
+        return "unfinished sentence"
+    return None

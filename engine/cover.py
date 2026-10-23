@@ -84,7 +84,7 @@ def render(headline: str, outlets: int, section: str, when: datetime, out: Path)
     # Headline, as big as it will go.
     box_w = panel_x - PAD - 70
     top = ty + 100
-    font, lines, line_h = _fit_headline(d, headline, box_w, H - top - 190)
+    font, lines, line_h = _fit_headline(d, headline, box_w, H - top - 250)
     y = top
     for line in lines:
         d.text((PAD, y), line, font=font, fill=WHITE)

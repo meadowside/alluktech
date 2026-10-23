@@ -159,7 +159,7 @@ ai_lines:
 
 scoring:
   coverage_cap: 15
-  freshness_half_life_hours: 6     # a story loses half its score every 6 hours
+  freshness_half_life_hours: 12    # a story loses half its score every 12 hours, aged from its middle article
   regulator_bonus: 0.5             # small nudge when an official source is in the story
   exclusive_floor: 4
   global_min_coverage: 12     # a story with no UK angle runs only above this coverage

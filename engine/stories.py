@@ -223,7 +223,11 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
 
     # Score.
     u = 1.0 if s.relevance >= 3 else 0.7 if s.relevance == 2 else 0.5
-    hours = max(0.0, (now - s.last_seen).total_seconds() / 3600)
+    # Age from the story's middle article, not its latest. A big story keeps collecting a few
+    # late write-ups for days; using the latest one would keep it looking fresh far too long.
+    times_sorted = sorted(times)
+    centre = times_sorted[len(times_sorted) // 2]
+    hours = max(0.0, (now - centre).total_seconds() / 3600)
     fresh = 0.5 ** (hours / sc["freshness_half_life_hours"])
     s.score = min(coverage, sc["coverage_cap"]) * u * fresh + (sc["regulator_bonus"] if s.regulator else 0)
 
@@ -285,8 +289,14 @@ def best_teaser(group: list, headline: str) -> str:
     return best if best_overlap >= 2 else ""
 
 
+def clean_text(text: str | None) -> str:
+    """Plain text only, even for summaries stored before the fetch cleaner was fixed."""
+    from .fetch import clean
+    return clean(text)
+
+
 def first_sentence(text: str, headline: str, limit: int = 180) -> str:
-    text = (text or "").strip()
+    text = clean_text(text)
     if not text or text.lower().startswith(headline.lower()[:40]):
         return ""
     m = re.match(r"(.+?[.!?])(\s|$)", text)

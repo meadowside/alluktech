@@ -22,7 +22,9 @@ SPACE_RE = re.compile(r"\s+")
 def clean(text: str | None, limit: int | None = None) -> str:
     if not text:
         return ""
-    text = html.unescape(TAG_RE.sub(" ", text))
+    # Some feeds send their HTML escaped (&lt;p&gt;), so decode and strip twice.
+    for _ in range(2):
+        text = TAG_RE.sub(" ", html.unescape(text))
     text = SPACE_RE.sub(" ", text).strip()
     if limit and len(text) > limit:
         text = text[:limit].rsplit(" ", 1)[0] + "..."

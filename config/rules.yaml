@@ -11,7 +11,7 @@ site:
   # Until then the Contact page explains it isn't ready yet.
   formspree_id: "mnpjekoa"
   # Google Analytics 4 Measurement ID, e.g. "G-ABC123XYZ". Blank = no analytics and no cookie banner.
-  ga_id: ""
+  ga_id: "G-B7K1MJEP89"
 
 # Order here is the order on the site and in the email.
 # email_min / email_max: a section with fewer than email_min items runs short, never padded.

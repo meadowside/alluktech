@@ -54,6 +54,8 @@ jobs:
       - name: Save the database
         # Code may have been pushed while this run was working, so catch up before saving.
         # Our new data wins any clash. If saving still fails, the site is published anyway.
+        # Runs even when the engine fails, so data/last_run.log shows what went wrong.
+        if: always()
         continue-on-error: true
         run: |
           git config user.name "All UK Tech bot"

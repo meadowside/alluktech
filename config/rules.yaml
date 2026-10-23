@@ -187,3 +187,6 @@ facebook:
   post_hours: [8, 12, 18]     # UK time
   section: ai
   min_relevance: 2
+  # Text-only post with the link in the first comment, so Facebook adds no preview image.
+  # Needs pages_manage_engagement on the Page token. Without it, posts fall back to a normal link post.
+  link_in_comment: true

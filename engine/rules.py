@@ -14,6 +14,11 @@ def _phrase_regex(phrases: list[str]) -> re.Pattern | None:
     return re.compile(r"(?<![\w])(" + "|".join(alts) + r")(?![\w])", re.IGNORECASE)
 
 
+# Product reviews carry the year: "WhatsUp Gold 2026 review", "OLED TV Review (2026)".
+# News that merely ends in "review" ("... flaws found in pilot review") has no year, so it stays.
+REVIEW_TITLE = re.compile(r"(\b20\d\d\s+review|\breview\s*\(20\d\d\))\s*$", re.IGNORECASE)
+
+
 class Rules:
     def __init__(self, cfg: Config):
         r = cfg.rules
@@ -49,6 +54,8 @@ class Rules:
         for k in self.summary_keywords:
             if k in sm:
                 return f"summary:{k}"
+        if REVIEW_TITLE.search(title or ""):
+            return "title:ends in review"
         t = f" {(title or '').lower()} "
         for k in self.title_keywords:
             if k in t:

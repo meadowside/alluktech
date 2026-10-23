@@ -84,7 +84,7 @@ tech_keywords: [tech, technology, software, app, apps, digital, online, internet
 
 # Stories matching these never appear.
 exclude:
-  url_patterns: [/deals/, /deal/, /best-, /buying-guide, /coupon, /voucher, /promo, /sponsored/, /partner-content/,
+  url_patterns: [/deals/, /deal/, /reviews/, /review/, /best-, /buying-guide, /coupon, /voucher, /promo, /sponsored/, /partner-content/,
                  /advertorial/, /quiz/, /quizzes/, /podcast/, /video/, /live/, /obituar]
   # Phrases, matched anywhere in the title. Kept narrow on purpose: "deal" or "review" on
   # their own would also kill real news ("Arm agrees £2bn deal", "CMA review of Microsoft").

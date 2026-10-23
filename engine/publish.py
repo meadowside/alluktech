@@ -276,6 +276,18 @@ def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: P
     for name, text in ((f"{date}.html", html), (f"{date}.md", md), ("latest.md", md)):
         (email_archive / name).write_text(text, encoding="utf-8")
 
+    # The Substack cover, from the lead story. The AI's first title is shorter than most
+    # headlines, so the type comes out bigger.
+    if lead:
+        try:
+            from . import cover
+            words = titles[0] if titles and len(titles[0]) <= 70 else lead.headline
+            png = cover.render(words, lead.source_count, cfg.section_names.get(lead.section, ""),
+                               local, email_archive / f"{date}-cover.png")
+            (email_archive / "latest-cover.png").write_bytes(png.read_bytes())
+        except Exception as e:  # a missing cover must never stop the email
+            print(f"  cover failed: {e}")
+
     chosen = ([top] if top else []) + [s for sec in picked["sections"] for s in sec["stories"]]
     db.clear_sent(date)  # a rebuild replaces the day's record rather than adding to it
     for s in chosen:

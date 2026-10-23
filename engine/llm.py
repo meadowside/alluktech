@@ -83,7 +83,7 @@ Other lead stories:
 {others}
 
 Write THREE different subject lines, one per line, no numbering, no quotes.
-Each 60 characters or fewer. Plain British English. Specific, not clickbait.
+Each 60 characters or fewer, starting with a capital letter. Plain British English. Specific, not clickbait.
 Lead with the top story in at least two of them. One may combine two stories.
 No dashes, no semicolons, no hype words, no questions answered in the same line.
 Reply with the three lines only."""
@@ -119,7 +119,7 @@ def email_titles(top: str, sources: int, others: list[str]) -> list[str]:
         low = t.lower()
         if not t or len(t) > 80 or any(b in low for b in BANNED) or "–" in t or ";" in t:
             continue
-        out.append(t)
+        out.append(t[0].upper() + t[1:])
     return out[:3]
 
 

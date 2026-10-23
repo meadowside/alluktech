@@ -1,7 +1,7 @@
 TITLE IDEAS (pick one for the Substack title, then delete these lines)
-1. Streeting warns UK to prepare for supply chain shocks
-2. Streeting: plan for cyber or climate supply disruption
-3. new govt vulnerabilities and Lazarus post-quantum malware
+1. Streeting warns of supply chain risk from cyber or climate
+2. Streeting: prepare for cyber or climate supply shocks
+3. Cyber and climate supply risks, plus 500 government flaws
 
 ---
 
@@ -28,9 +28,9 @@ Financial Times (£), 8 sources
 - [Investors see risk from US midterms to AI trade as data center backlash builds](https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9MZFVybjMtWlpqUWNZakhsSGhrbEh5SEx3aDdiX1h6b3FfdVpxR01BVXJuclFRZ0Q0a2lIZjc5N21iNVBQemFGTFU2MTNFdUxrYUd4azZKb042WUJnYnNKZVNseWVQSTg?oc=5) (Reuters)
 - [NHS doctors to use AI to diagnose prostate cancer](https://news.google.com/rss/articles/CBMiowFBVV95cUxPR185OS1ZMW9mak9XeXZXSWxOWFh6RHJpQ0QyeWpCVmwtX3dUSXlZQ09HQ3Azcy1xa1ltM0tHWi1GYlNjMGljVG5ON19yMHRnMkh2Slh5aWhhTGpFbXFRUlJKckdrSjBQMWgwUHNtUjRpY0FiYlVmeDV0TEItNHg5LWJPSVhkOVhBdXdXM21jYV81TUhVYkNjeV9aa2hmczIzOHQw?oc=5) (The Telegraph, £)
 - [UK regulator urges pension trustees to stress-test over AI concentration risk](https://news.google.com/rss/articles/CBMiygFBVV95cUxQcU55cjFNMHRNalFrSzd6RDVZT19qSHJnQkxTSDJUb0VhTzNFckpUMTBzaFVUTWt3d01oMlp1SU5jd2pYQWtlUVdtbFB2TzNycG1kT0kxUi1RTTUzU0E2aEpYU3RyemFvamhoeGRQSmVCT0x3R2ZNa1lnckZZY2R5eGJFeHFjVjJqWTJidnlCRWduWlRnRnkzUi11c1ZvM2dhTk1mQVozN3ZubHozOFljcm5TQWttQjhHQkRZSXhtMUJmNHRlRlhuNE13?oc=5) (Reuters)
+- [Anthropic strikes deal to launch European consultancy](https://www.ft.com/content/df70bf20-e809-48d0-8485-f8f514a7fbc4?syn-25a6b1a6=1) (Financial Times, £)
 - [How business leaders can bring employees on board with AI transformation](https://www.uktech.news/ai/overcoming-employee-resistance-ai-adoption-20261023) (UKTN)
 - [The Indian workers filming their work to train AI](https://www.bbc.co.uk/news/articles/ckvgyml6pdm9o?at_medium=RSS&at_campaign=rss) (BBC)
-- [Can ‘medical superintelligence’ bring Dr House to your phone?](https://news.google.com/rss/articles/CBMikwFBVV95cUxPYjJlT3hhcEJTYmdSNExUSFEzUHhFR3BPdWR0VGdZWkVkWnZjSVJxaVFPN2lLN1ZlNTh3SXItVnRVQkdvN0thMWNLWHNUaDRZS21uWmlGUU52alFLMUlER0xlTU1nRFdVdWZGRjRWRVU1WXJhVm1UR3hjUFc2ekNXaTVLSnZka2t5T0V2TURTaUN0R2M?oc=5) (The Times, £)
 
 
 ## Startups & Funding
@@ -40,11 +40,11 @@ Financial Times (£), 8 sources
 
 - [Palmer Luckey unveils start-up to breed ‘genetically enhanced’ dogs for military](https://www.wired.com/story/cool-cool-cool-palmer-luckey-made-a-genetically-modified-military-dog-startup/) (Wired)
 - [Raiser wins innovation funding & ex-JustGiving adviser backing](https://businesscloud.co.uk/news/raiser-wins-innovation-funding-ex-justgiving-adviser-backing/) (BusinessCloud)
-- [Milei’s AI hype outpaces reality](https://www.ft.com/content/0fdf2308-76f1-413b-a753-31ba3f00c561?syn-25a6b1a6=1) (Financial Times, £)
 - [Is the UK leading Europe’s startup funding race? Yes, but there’s a catch](https://news.google.com/rss/articles/CBMiqgFBVV95cUxNZ0JQU1Z0TnhUaHpJenQxekdjZkJrTkV2dDY3akx3OTV0eTdfbTUtbU1vRjFLWFRYSi1kcnNYZDhhRmpCZ2FNQTRJQ2M3cTNFOXlJUXBRWkJTRnBKME52XzZUc000YlN2Rnpud1JUV1NWNUMzNmNmR0hjYkVWTHZObVRMaHdnZU5HR1lQWnduQVBhNEhyLXA5UWpqRVNfMzJhSHlLc3RXZTdEZw?oc=5) (EU-Startups)
 - [Seaya raises €600M for new growth fund to back Europe's next global tech leaders](https://tech.eu/2026/10/22/seaya-raises-eur600m-for-new-growth-fund-to-back-europes-next-global-tech-leaders/) (Tech.eu)
 - [Rivian buys world model startup to accelerate self-driving ambitions](https://techcrunch.com/2026/10/22/rivian-buys-world-model-startup-to-accelerate-self-driving-ambitions/) (TechCrunch)
 - [Founder 250 star to bring ‘grit, innovation, authenticity’ to FUEL Manchester](https://businesscloud.co.uk/news/founder-250-star-to-bring-grit-innovation-authenticity-to-fuel-manchester/) (BusinessCloud)
+- [Legal AI startup Legora valued at $8.8 billion in new $550 million funding round](https://tech.eu/2026/10/20/daytona-hits-1b-valuation-with-60m-series-b-for-ai-agent-cloud/) (Tech.eu)
 
 
 ## Big Tech in the UK
@@ -61,14 +61,14 @@ Financial Times (£), 8 sources
 
 ## Policy & Regulation
 
-**Andy's Pick: [UK government adapts Post Office scandal redress schemes and investigates pre-Horizon software](https://www.computerweekly.com/news/366652443/UK-government-adapts-Post-Office-scandal-redress-schemes-and-investigates-pre-Horizon-software)** (Computer Weekly)
-*So what: It signals that UK regulators and courts will scrutinise legacy and pre-existing software, so developers should document system errors and audit trails carefully.*
+**Andy's Pick: [Healey moves to slash red tape and save firms £800m a year](https://news.google.com/rss/articles/CBMirgFBVV95cUxNWGNwZjVya0NTS1FVTlBEYUdLbklSTUxpSWV3dkYwRmY1TW5tMy1RV0xjN1dPMmZXZlBwQlB3LU1RcFptWmlldFZSQUhVd2pjT2JnNl9VS1hlM0RKdW4weEVaWHMzR1ZoVEZqakZoRTdWcjc2TllFelVFNWtlM0UycVQyOHdxb2NINmdxeWJuMWlYMjdRb2N1X1UybHRGOHdJc2hGbTVWcXNJMDA3Q3c?oc=5)** (DSIT, 2 sources)
+*So what: If your firm files reports or pays for imported kit, fewer reporting duties and lower tariffs could leave more budget for hiring and building.*
 
+- [UK government adapts Post Office scandal redress schemes and investigates pre-Horizon software](https://www.computerweekly.com/news/366652443/UK-government-adapts-Post-Office-scandal-redress-schemes-and-investigates-pre-Horizon-software) (Computer Weekly)
 - [MPs urge UK government to play venture capitalist with taxpayer-funded tech](https://www.itpro.com/business/uk-government-urged-to-take-stakes-in-publicly-funded-tech-firms) (ITPro)
 - [Market integrity in a digital age](https://www.fca.org.uk/news/speeches/market-integrity-digital-age) (FCA)
 - [UK Parliament Data Centres Inquiry – EOI Invitation](https://news.google.com/rss/articles/CBMikgFBVV95cUxPd1NkUDhFTnJkbW9wdUZQaF82ZTkyWUljZjY4ZWR6NnRWUl9vZTFpREVVTWw2WUgzbHh0RmJFd0ROU1QwVXF1ME92SEVrTjNqMmxXQWZfLWtUZ0dGS3VfdS1zNjQ3eENDcU55X2FIbHZ3RGJ3M28yRzQtY1dPbmhRTV92LW5RSVN0OG8zNVBpTl9oUQ?oc=5) (Marketing Stockport)
 - [UK FCA seeks input on DeFi, crypto regulation ahead of 2027 regime](https://news.google.com/rss/articles/CBMimAFBVV95cUxOU0c2bGNJV1VrZllNcGhaY0dweHFXZVNYV040RWxfYUQyaVBBZ2lFNkZUNTVTc05USVNjdXJhcEF3ME05bmhXeGNjT1ZDTVREZXdOUWU1emVQTTlmN3JrSldPTDRfNmhZZG9UZzh6RzBpNDRMTXkwTUJsYzUzYlMtMTBCVEhDY0g2MDFUN1hWTWJ0OUI2RUtWMw?oc=5) (Crypto Briefing)
-- [Building the future of finance in the age of AI](https://www.fca.org.uk/news/speeches/building-future-finance-age-ai) (FCA)
 
 
 ## Infrastructure

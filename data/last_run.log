@@ -1,5 +1,7 @@
-All UK Tech run: auto at Fri 23 Oct 10:31 UK time
-  feeds: 38/40 worked, 14 new items (1 excluded by rules)
-  stories: 612 grouped, 288 pass the UK and quality rules
-  site: 246 stories live, 2 new AI lines. Top: Prepare for supply chain disruption from cyber or climate emergencies, Streeting warns
-  AI lines: 2 written, 0 rejected, 0 failed calls
+All UK Tech run: email at Fri 23 Oct 10:51 UK time
+  feeds: 38/40 worked, 17 new items (0 excluded by rules)
+  stories: 618 grouped, 292 pass the UK and quality rules
+  site: 250 stories live, 0 new AI lines. Top: Prepare for supply chain disruption from cyber or climate emergencies, Streeting warns
+  email: 35 stories, 0 new AI lines, short sections: Infrastructure
+  notify: skipped (no Telegram settings)
+  AI lines: 0 written, 0 rejected, 0 failed calls

@@ -38,6 +38,17 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+.cookie-bar { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 720px; margin: 0 auto; z-index: 50;
+  background: var(--card); color: var(--ink); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.15); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font: 14px/1.45 var(--sans); }
+.cookie-bar[hidden] { display: none; }
+.cookie-bar p { margin: 0; flex: 1 1 320px; }
+.cookie-bar a { color: var(--accent-ink); }
+.cookie-bar div { display: flex; gap: 8px; }
+.cookie-bar button { font: 600 14px var(--sans); border-radius: 8px; padding: 8px 14px; cursor: pointer;
+  background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.cookie-bar button.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+
 body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -282,7 +293,7 @@ table.status th, table.status td { text-align: left; padding: 7px 10px; border-b
   <div class="wrap foot">
     <p>Every headline links to the publisher that wrote it. {{ site.name }} ranks UK tech stories by how many outlets cover them and refreshes every hour. "So what" lines are written by AI. &copy; {{ year }} {{ site.name }}.</p>
     <nav aria-label="Site information">
-      <a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a>
+      <a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a>{% if site.ga_id %}<a href="#" id="cookie-settings">Cookie settings</a>{% endif %}
     </nav>
   </div>
 </footer>
@@ -307,5 +318,48 @@ table.status th, table.status td { text-align: left; padding: 7px 10px; border-b
   });
 })();
 </script>
+{% if site.ga_id %}
+<div id="cookie-bar" class="cookie-bar" hidden>
+  <p>Can we use Google Analytics cookies to count visits? It tells us which stories people read. No ads, nothing sold. <a href="privacy.html">Privacy</a></p>
+  <div><button type="button" data-consent="yes">Accept</button><button type="button" data-consent="no" class="ghost">No thanks</button></div>
+</div>
+<script>
+// Google Analytics loads only after the reader says yes.
+(function () {
+  var ID = "{{ site.ga_id }}", bar = document.getElementById("cookie-bar");
+  function get() { try { return localStorage.getItem("ga-consent"); } catch (e) { return null; } }
+  function set(v) { try { localStorage.setItem("ga-consent", v); } catch (e) {} }
+  function load() {
+    if (window.gaLoaded) return; window.gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag("js", new Date());
+    gtag("config", ID, { anonymize_ip: true });
+    var s = document.createElement("script"); s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
+    document.head.appendChild(s);
+  }
+  function clearCookies() {
+    document.cookie.split(";").forEach(function (c) {
+      var n = c.split("=")[0].trim();
+      if (n.indexOf("_ga") === 0) {
+        ["", "; domain=" + location.hostname, "; domain=." + location.hostname.replace(/^www\./, "")].forEach(function (d) {
+          document.cookie = n + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + d;
+        });
+      }
+    });
+  }
+  var c = get();
+  if (c === "yes") load(); else if (c !== "no") bar.hidden = false;
+  bar.addEventListener("click", function (e) {
+    var v = e.target.getAttribute("data-consent"); if (!v) return;
+    set(v); bar.hidden = true;
+    if (v === "yes") load(); else { clearCookies(); if (window.gaLoaded) location.reload(); }
+  });
+  var link = document.getElementById("cookie-settings");
+  if (link) link.addEventListener("click", function (e) { e.preventDefault(); bar.hidden = false; });
+})();
+</script>
+{% endif %}
 </body>
 </html>

@@ -1,16 +1,20 @@
 {% extends "pages/_page.html" %}
 {% block body %}
-<p class="lede">Short version: we don't track you, we don't use advertising cookies and we don't sell anything about you.</p>
+{% if site.ga_id %}<p class="lede">Short version: with your permission we count visits with Google Analytics. We don't use advertising cookies and we don't sell anything about you.</p>
+{% else %}<p class="lede">Short version: we don't track you, we don't use advertising cookies and we don't sell anything about you.</p>{% endif %}
 
 <h2>What this site collects</h2>
-<p>Nothing that identifies you, unless you use the contact form. There are no analytics, no tracking pixels and no advertising cookies.</p>
-<p>If you switch between light and dark mode, your choice is saved in your own browser so the site remembers it next time. It never leaves your device and you can clear it by clearing your browser's site data.</p>
+{% if site.ga_id %}<p>If you click Accept on the cookie banner, Google Analytics sets cookies that count visits and show which pages and stories get read. Google sees your IP address and basic details about your browser and device. We see only totals. If you click No thanks, Analytics never loads. You can change your mind any time with Cookie settings at the bottom of every page.</p>
+<p>There are no tracking pixels and no advertising cookies.</p>
+{% else %}<p>Nothing that identifies you, unless you use the contact form. There are no analytics, no tracking pixels and no advertising cookies.</p>{% endif %}
+<p>If you switch between light and dark mode, your choice (and your cookie choice) is saved in your own browser so the site remembers it next time. It never leaves your device and you can clear it by clearing your browser's site data.</p>
 
 <h2>Other services the site uses</h2>
 <ul>
   <li><b>GitHub Pages</b> hosts the site. Like any web host, it may log your IP address for security.</li>
   <li><b>Google Fonts</b> and <b>Google's favicon service</b> supply the typefaces and the small outlet logos, so your browser asks Google for them.</li>
-  <li><b>Formspree</b> processes messages sent through the contact form.</li>
+  {% if site.ga_id %}<li><b>Google Analytics</b> counts visits, only if you accept cookies. Google's privacy policy applies to that data.</li>
+  {% endif %}<li><b>Formspree</b> processes messages sent through the contact form.</li>
   <li><b>Substack</b> runs the email list. If you sign up, Substack's own privacy policy applies to that.</li>
 </ul>
 <p>When you click a headline you leave this site, and the publisher's own privacy policy applies.</p>

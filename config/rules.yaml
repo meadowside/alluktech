@@ -10,6 +10,8 @@ site:
   # The contact form needs a free Formspree form (formspree.io). Paste its ID here, e.g. "xyzabcd".
   # Until then the Contact page explains it isn't ready yet.
   formspree_id: "mnpjekoa"
+  # Google Analytics 4 Measurement ID, e.g. "G-ABC123XYZ". Blank = no analytics and no cookie banner.
+  ga_id: ""
 
 # Order here is the order on the site and in the email.
 # email_min / email_max: a section with fewer than email_min items runs short, never padded.

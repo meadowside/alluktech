@@ -83,8 +83,7 @@ class Story:
         links over Google News redirects."""
         out = []
         for o in sorted(self.outlets.values(), key=lambda o: (TIER_RANK.get(o.tier, 9), o.name)):
-            item = next((i for i in o.items if "news.google.com" not in i["url"]), o.items[0])
-            out.append((o, item))
+            out.append((o, self._best_item(o)))
         return out
 
     def other_coverage(self, limit: int = 6) -> list[tuple[Outlet, dict]]:
@@ -93,9 +92,13 @@ class Story:
         for o in sorted(self.outlets.values(), key=lambda o: (TIER_RANK.get(o.tier, 9), o.name)):
             if o is self.link_outlet:
                 continue
-            item = next((i for i in o.items if "news.google.com" not in i["url"]), o.items[0])
-            out.append((o, item))
+            out.append((o, self._best_item(o)))
         return out[:limit]
+
+    def _best_item(self, o: Outlet) -> dict:
+        """The outlet's article closest to the headline, real URLs before Google redirects."""
+        return max(o.items, key=lambda i: (title_overlap(i["title"], self.headline),
+                                           "news.google.com" not in i["url"]))
 
 
 def _outlet_key(item) -> str:
@@ -245,14 +248,25 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
     s.headline = lead_item["title"]
     s.section = rules.pick_section(hits, lead.source.sections if lead.source else [])
 
+    # Each outlet's link must be the article the headline describes. A group can hold two
+    # related stories from one outlet (a Capcom breach and a Quest breach), and linking the
+    # wrong one sends readers to a different story.
+    def matches(item) -> float:
+        if item is lead_item:
+            return 1.0
+        return title_overlap(item["title"], s.headline)
+
     def linkable(o: Outlet, free: bool):
+        if free and o.source and o.source.paywall:
+            return None
+        best = None
         for i in o.items:
             if "news.google.com" in i["url"]:
                 continue
-            if free and o.source and o.source.paywall:
-                continue
-            return i
-        return None
+            m = matches(i)
+            if m >= LINK_MATCH and (best is None or m > best[0]):
+                best = (m, i)
+        return best[1] if best else None
 
     # Every outlet we could link, best first: free before paywalled, real URLs before Google redirects.
     options = []
@@ -261,9 +275,8 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
             item = linkable(o, free)
             if item and all(opt[0] is not o for opt in options):
                 options.append((o, item["url"]))
-    for o in ranked:
-        if all(opt[0] is not o for opt in options):
-            options.append((o, o.items[0]["url"]))
+    if all(opt[0] is not lead for opt in options):
+        options.append((lead, lead_item["url"]))  # the headline's own article, even via Google
     s.link_options = options
     s.link_outlet, s.link = options[0]
     s.paywall = bool(s.link_outlet.source and s.link_outlet.source.paywall)
@@ -273,6 +286,15 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
 
 
 WORD_RE = re.compile(r"[a-z0-9£$]+")
+LINK_MATCH = 0.4   # share of the headline's main words an article title must have to be linked
+
+
+def title_overlap(a: str, b: str) -> float:
+    wa = {w for w in WORD_RE.findall(a.lower()) if len(w) > 3}
+    wb = {w for w in WORD_RE.findall(b.lower()) if len(w) > 3}
+    if not wa or not wb:
+        return 0.0
+    return len(wa & wb) / min(len(wa), len(wb))
 
 
 def best_teaser(group: list, headline: str) -> str:

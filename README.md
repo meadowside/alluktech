@@ -55,6 +55,27 @@ From then on it runs by itself every hour at :31.
 3. Replace the yellow bits: the opening note and the top story's "why it matters".
 4. Send.
 
+## Coverage history (trends)
+
+Every run also notes which companies each story is about (names and spellings in
+`config/companies.yaml`, which also covers a few regulators and public bodies) and rolls the
+coverage into two tables that are never pruned: `company_daily` (one row per company per UK day:
+stories, headline stories, outlets, attention) and `section_daily` (articles per section per day).
+Recent days are rebuilt each run while stories are still growing, then freeze. Attention is the
+site's own weighted coverage (national 3, UK specialist 2, others 1), full weight when the company
+is in the headline and half when it's only in the text. Code in `engine/trends.py`.
+
+Nothing on the site or in the email uses it yet. To see what it says:
+
+```
+python run.py trends                 # yesterday
+python run.py trends --date 2026-11-12
+```
+
+Spikes stay blank until there are 14 days of history and "new on the radar" until there are 60.
+Treat the first fortnight as warm-up. It all describes how much the press covered something, never
+whether the news was good or bad.
+
 ## Tuning after the first week
 
 All in `config/rules.yaml`:

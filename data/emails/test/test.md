@@ -1,7 +1,7 @@
 TITLE IDEAS (pick one for the Substack title, then delete these lines)
-1. UK unveils £600m AI security funding package
-2. UK AI security funding and biosecurity lab plans
-3. UK AI security funding, 500 government vulnerabilities
+1. UK commits £800m to AI security funding
+2. UK backs AI security with £800m and a biosecurity lab
+3. £800m for AI security as 500 government flaws surface
 
 ---
 
@@ -13,19 +13,19 @@ Andy
 
 ## Top story
 
-**[UK government sets out $800 million of AI security funding](https://news.sky.com/story/uk-pledges-to-spend-600m-to-defend-against-ai-health-and-security-threats-13602935)**
-Sky News, 15 sources
+**[UK government sets out $800 million of AI security funding](https://news.google.com/rss/articles/CBMioAFBVV95cUxQTDJseUNYVnJGcWZWUjlPR0RUSXJHTVItRmh1dkdnNTFiZ2tmTFhUM1p3YnI1T2RGdlpFZ1JWN3BGR2dCajk3Y1pBMlBCYjNFX2dnbjJzZnNJb1BONkNGREFYamNWT1FLRFJXdjdVeEdMUFZnM3FQRXE2VFBIbFdWUVItWEJwd3F4dmFRbHpKTzE4RWpXSGRnTzY4QVdISFJj?oc=5)**
+Reuters, 15 sources
 
 **Why it matters:** [Your line. AI suggests: Funding for AI security could mean new grants, partnerships and procurement chances for UK firms building safeguards, testing or secure AI systems.]
 
 
 ## AI
 
-**Andy's Pick: [UK sets up AI lab to monitor biosecurity threats](https://www.bbc.co.uk/news/articles/cqdjv8xllvyyo?at_medium=RSS&at_campaign=rss)** (BBC, 17 sources)
+**Andy's Pick: [UK sets up AI lab to monitor biosecurity threats](https://www.ft.com/content/e4481867-fecc-48fc-ad9d-4daaf05d14ba?syn-25a6b1a6=1)** (Financial Times, £, 17 sources)
 *So what: Government-backed AI work on biosecurity could bring new funding, procurement and rules that affect UK developers building models and data tools.*
 
 - [Chancellor Unveils Ambitious AI Plan for Britain](https://news.google.com/rss/articles/CBMijAFBVV95cUxNdUNhSnlGVEZUNGVPX0dfZVMwN0NUQ3hZU1JCd28xamVncmhMRlpoOFh0czRka0czRjJjNTlZTldtUjZ1cjRELVpWa3BrZ0JjUWZnTEM3VTZCVDFIN0FpdHgyQjdoTE9OcXJLUXZXdUpTbGNUUjgxdTdJUXhsalktazdUdDdMNmxmeUNVLQ?oc=5) (Mirage News)
-- Update: [Investors see risk from US midterms to AI trade as data center backlash builds](https://www.wired.com/story/europe-data-centers-climate-change/) (Wired)
+- Update: [Investors see risk from US midterms to AI trade as data center backlash builds](https://news.google.com/rss/articles/CBMiwAFBVV95cUxPN1FMNjdldVFMRjM1VlhaMGJCSG9GR3d4TzBjRVUxRk1NYnpHZWxDU1BLNVN4Y1BxUHhrdDhCc3JDYXpiN0c1T2NGRHFRNUxRcEFFVkpadTYxX0h4QXREYWtEZjVyOVJSdkQ0NlBnS05lRVlTUzhVNTRrdGNpbGM4blFKb2NiSnktRGdERWV4R1psd3BqbTROX242TjBkbFl2RVVhenBXVDZEVks3M1FsYTZBOGhhYVRfT0s1TmZ4SXQ?oc=5) (Reuters)
 - [OpenAI resumes frontier AI training with enhanced security, no internet access](https://www.theregister.com/ai-and-ml/2026/10/23/openai-disables-internet-access-during-model-training-while-anthropic-issues-another-mea-culpa/5305238) (The Register)
 - [An alignment assessment of the UK AISI cybertesting incident](https://news.google.com/rss/articles/CBMib0FVX3lxTE9hcjNRbVFacnhzLWNNYnRkSTlVM2FkMnotYTd0MEpwTmlsQ2N1NlVPdjJjdXJhNG9FbC14d3FIR3pVaEh0SEdIamRWWmNTazRXVGNxbFg3dEFZN0RQT0tVcWpWZlpGTlZYb29uTW9PQQ?oc=5) (Anthropic)
 - [UK government hasn't the foggiest how much it's spending on digital transformation](https://www.theregister.com/public-sector/2026/10/22/uk-government-hasnt-the-foggiest-how-much-its-spending-on-digital-transformation/5304662) (The Register)
@@ -51,10 +51,10 @@ Sky News, 15 sources
 *So what: Starlink's availability in a live conflict shows how much critical infrastructure can hinge on one private firm's decisions, a lesson for any UK team relying on single-vendor connectivity.*
 
 - [AI Video Startup Higgsfield Draws Investment From Nvidia](https://news.google.com/rss/articles/CBMivgFBVV95cUxQMHhEb3JuUm1ma05hdTNPb0hBc2lQbTFnNTF0ZThWZFBzUXpxSTM3Nmw2d05LRDVSRllZd1FJUHd3ekFPZmhCdjlQWWVvbnI1UklWeThscm9nTXZLSkVPTUxtS1VEYi1YSlJMZHlYdXJnbE9CRXdmYlNSc3dZdkhWZnl5QmhtMkZiMHFtdW14Yjh5bGRvaTBwRHN6bUt6MzNFTkVKMi1SbUZrVlBUbUpYUHo4SVA4YmVqT2RpZU5n?oc=5) (Bloomberg, £)
-- [Politico and Telegraph owner pitched deal to buy European arm of TikTok](https://www.ft.com/content/171220b9-8d8e-4d82-a866-f9aaf258e0fb?syn-25a6b1a6=1) (Financial Times, £)
 - [TrendAI targets open weight model gains with Nvidia Nemotron deal](https://www.itpro.com/technology/artificial-intelligence/trendai-targets-open-weight-model-gains-with-nvidia-nemotron-deal) (ITPro)
-- [Publishers, advertisers call EU, UK antitrust regulators to suspend Meta's new commercial terms](https://news.google.com/rss/articles/CBMiwwFBVV95cUxPRFBMTWVjQWZTZV9kZzdiYzVMMFlBZUFpb1Nob0k5ZGhfLTk2Qk1CUlA5blRxdmRPZGF5a3dsX0dXSGtuMFFKc21KYXlsVU9SbmRlQ3B4V0RyRllxZ0ZITjBPUWllZ3E5OWhvRmhsVHdlOFJzcnBlbkpWTWRFU3hFNE81cjlNcThSNjN1S2l2SkxwVTJua1VxQW5ZWWQ1MXNGMkp1bE9qN2RhWUFnM2lnMmVnbDRYVG9xVXlRUmZpN2VSRlE?oc=5) (Reuters)
 - [Widespread Token-Spraying Attacks Target Microsoft 365 Accounts For Email Compromise](https://www.infosecurity-magazine.com/news/tokenspraying-attacks-target/) (Infosecurity Magazine)
+- [London Developer Halts Major Project as Housing Viability Hits Crisis Point](https://news.google.com/rss/articles/CBMivgFBVV95cUxOY1RnaDRkWXlDSkFaNjZUTE03YkxlQzdhb3p3WGdtYjdid2pWVExRdngzMWp6LWN5YXJwVlVVWFJwQldTU1FpQk9jS29OMEVDS1pyMG0tNWxfMFNQUnFDZ3F5Q01JUGszcDVPcGdybWczVjBscHkxVnpsdE1hQW1IbFVxdzY4N2ZVQURRckN4cFhPMHdyenk5amwzLUZXa2xMV0swY3JGRkpQZUl5a1BLWjYwX1lLYjhIMjh5ZFVB?oc=5) (Bloomberg, £)
+- [OpenAI to sell its top models on Google Cloud in latest enterprise push](https://arstechnica.com/ai/2026/10/openais-latest-ai-models-are-coming-to-google-cloud-and-antigravity/) (Ars Technica)
 
 
 ## Policy & Regulation
@@ -73,20 +73,19 @@ Sky News, 15 sources
 **Andy's Pick: [General Notice to vary the Satellite Earth Station Network (ESN) licences](https://news.google.com/rss/articles/CBMimAJBVV95cUxQRVNjME1vcEVXMUFOWXA0X2lvWk1YYzNuTzlIZVlrR0VpVGFYNHBmcnBLR1p0M1cwVk90QXNNeTF5LU9pZVpDbW1lY1pUT1ZwLXR5c3JtUE5QRGg2MGZ4Vk9NcjRVOHRHNW82YmJrSmowYnI5SkhlVXJ6SXhUdk9lUzdPWFJmY05JT3JrY0xWWEI1SUkyVmRZUkdYYVFHRTRqRHp2YW8wZVgwLVlrM0dCdWxrS0x6a3ZEem1sNnF1U3RwY2JGdlpHSGE1RzFUTmFDQkJENXA3ZVptcEx3VkxHQngtcE9nSEZvY1JHV3pUX09Hb2FzeE9FREgxQ1NRdDU0Vy1RUmwyM2t6VW5qOGZlTjh5OFpnQmcy?oc=5)** (Ofcom)
 *So what: Changes to satellite earth station licences could affect how UK firms access and build on satellite connectivity, so anyone relying on it should check the detail.*
 
-- [Storm causes power outages and traffic disruptions in France and Britain](https://news.google.com/rss/articles/CBMiswFBVV95cUxOaXJWdmhrbzhRV0ptdXBNUXNuSThoX19sYUpyanBOcUw1U2YxcTd0eS1abmxyelUyWmhfSVBkU2lpTjBrOXZYb2ZqRGRSMTJMX05yd3IyM3c5bV9XRUtzRDZFSmRMQ2RVREY3QWxnblh5NUxFZDJGMVl5U1lKdmpnOHloUmtEUjZYRzBoekxZODJXdVFsWFF0UFd2OUthN1V0RmJCQ251ZU14Tl85cm1RUkRkOA?oc=5) (Reuters)
 - [UK and Singapore deepen cooperation on digital finance and sustainable finance](https://news.google.com/rss/articles/CBMiugFBVV95cUxOTDJ1aFBZSVJQSnhXUHlJaVRCNmtTWHJ3RGVzSDRmOEJVbXF2c1VrUWNVWVhReDVlUHY4YVZ2R1VBMml3Y2h2R1dmd3VFeDdWcnV6NkY0TUF6OVNSRG1kbDlDVTNDbVFfZnVzY3lUaXRhS1M1SmVrUHpvNDBycHkxY0R6N3A1dGVlUHJTcVEzVTBfemlHcl9JTlRHaWgyT0hnT1g0U0liQndsRVZhSFUxbmRta0dtSTByRkE?oc=5) (TNGlobal)
 - [Can Britain’s grid keep up with the datacentre boom?](https://www.computerweekly.com/feature/Can-Britains-grid-keep-up-with-the-datacentre-boom) (Computer Weekly)
 
 
 ## Security
 
-**Andy's Pick: [Laboratory operator Quest reports cyber breach affecting patient records](https://www.infosecurity-magazine.com/news/capcom-confirms-data-breach/)** (Infosecurity Magazine, 4 sources)
+**Andy's Pick: [Laboratory operator Quest reports cyber breach affecting patient records](https://www.bleepingcomputer.com/news/security/quest-diagnostics-confirms-data-breach-exposed-patient-records/)** (BleepingComputer, 4 sources)
 *So what: A breach of 11.7 million account records is a reminder for UK teams to audit how their own identity systems store and expose customer emails and linked data.*
 
-- [PHP2Shell exploit bypasses protections designed to stop remote code execution](https://www.bleepingcomputer.com/news/security/gitlab-warns-of-new-max-severity-code-execution-vulnerability/) (BleepingComputer)
+- Update: [Cyber Attack Hits BAE Systems, Disrupting Numerous US Federal Courts](https://news.google.com/rss/articles/CBMisAFBVV95cUxNTjRzWEZ4THVkcVd2WjhkLVdHUTl5M3JVRVh4N2NVVUg0MV9FSF9aR1hzUGRyVlpweXBUMW5MeXZvZjRRcWJzci04WjB1Zk93anpzakdWVmZMVWNzR0pyZXQ3QVpMdW1taWQ3c3pFVG1ENGd3VnZDRzh0d0NYZHhhVWdMdW9xVlRyMHkxUEd2NWNMQWxQYlc5X1BwbXFpdXBYc3RaWV9TekdwZmdlTkc4Zg?oc=5) (CPO Magazine)
 - [‘Black October’: cybersecurity experts sound the alarm over new era of AI-enabled hacking](https://www.theguardian.com/technology/2026/oct/23/cybersecurity-ai-hacking-php-vulnerability) (The Guardian)
+- ['It's been relentless' say IT workers on frontline of PHP cyber-security scramble](https://www.bbc.co.uk/news/articles/cxnv025d8qpmo?at_medium=RSS&at_campaign=rss) (BBC)
 - [US, UK and Germany Warn of Active SafePay Ransomware](https://news.google.com/rss/articles/CBMijgFBVV95cUxNNVdOVGg0YVUzN2x0X3dlU0RXWkRMWHFkeURpNU5sU3RrRDY1c3NvM042dHJYT1E2Q29RenhISFhfSzAydmJPcjZnampBeWE2MHN2b3BmeHl1UWwtdV94VERSUGllTGZRNkR6UVBnS1Q5WVBySWQ1RHdBLWxuS2Y0LTZsNDhpalgzZUVZajd3?oc=5) (BankInfoSecurity)
-- [A spate of cyber attacks has rocked Japan](https://www.itpro.com/security/cyber-attacks/a-spate-of-cyber-attacks-has-rocked-japan-and-its-spooked-lawmakers) (ITPro)
 
 
 More UK tech news, updated every hour, at [alluktech.com](https://alluktech.com).

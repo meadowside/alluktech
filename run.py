@@ -5,6 +5,8 @@
   python run.py hourly      # fetch, rank and rebuild the site only
   python run.py email       # build today's email now (even if one exists)
   python run.py facebook    # post the next AI story to Facebook now
+  python run.py trends      # print coverage spikes and section shares from saved history (no fetching)
+  python run.py trends --date 2026-11-12
 
 Options:
   --fixtures DIR            # read feeds from DIR/<source id>.xml instead of the internet
@@ -18,7 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from engine import facebook, llm, notify
+from engine import facebook, llm, notify, trends
 from engine.config import ROOT, Config
 from engine.db import DB
 from engine.fetch import fetch_all
@@ -29,11 +31,12 @@ from engine.stories import build_stories
 
 def main():
     ap = argparse.ArgumentParser(description="All UK Tech engine")
-    ap.add_argument("command", choices=["auto", "hourly", "email", "email-test", "facebook"])
+    ap.add_argument("command", choices=["auto", "hourly", "email", "email-test", "facebook", "trends"])
     ap.add_argument("--fixtures", type=Path)
     ap.add_argument("--now")
     ap.add_argument("--db", type=Path, default=ROOT / "data" / "news.db")
     ap.add_argument("--out", type=Path, default=ROOT / "site")
+    ap.add_argument("--date", help="for trends: the UK date to report on (default yesterday)")
     args = ap.parse_args()
 
     now = (datetime.strptime(args.now, "%Y-%m-%dT%H:%MZ").replace(tzinfo=timezone.utc)
@@ -43,6 +46,15 @@ def main():
     db = DB(args.db)
     local = now.astimezone(ZoneInfo(cfg.site["timezone"]))
     print(f"All UK Tech run: {args.command} at {local:%a %d %b %H:%M} UK time")
+
+    if args.command == "trends":
+        try:
+            trends.backfill(db, cfg, rules, now)
+            trends.record_daily(db, cfg, rules, now)
+            print(trends.report(db, cfg, now, args.date))
+        finally:
+            db.close()
+        return
 
     try:
         stats = fetch_all(cfg, db, rules, now, fixtures=args.fixtures)
@@ -88,6 +100,20 @@ def main():
                 print(f"  facebook: {story.headline} -> {facebook.post(story, db, now, cfg.site["url"], fb.get("link_in_comment", True))}")
             else:
                 print("  facebook: nothing new to post")
+        # Coverage history for trends. Logging only: nothing on the site or in the email uses it yet.
+        # A problem here must never stop the site, email or Facebook post, so it's caught and reported.
+        db.conn.commit()
+        try:
+            back = trends.backfill(db, cfg, rules, now)
+            saved = trends.record_stories(stories, db, cfg, now)
+            tr = trends.record_daily(db, cfg, rules, now)
+            print(f"  trends: {saved} company-stories saved{f' (plus {back} backfilled)' if back else ''}, "
+                  f"{tr['company_rows']} company-days and {tr['section_rows']} section-days refreshed, "
+                  f"{trends.history_days(db)} days of history")
+        except Exception as e:  # noqa: BLE001
+            db.conn.rollback()  # undo only the half-done trends work
+            print(f"  trends: failed, nothing else affected ({type(e).__name__}: {e})")
+
         if llm.enabled():
             st = llm.STATS
             print(f"  AI lines: {st['ok']} written, {st['rejected']} rejected, {st['failed']} failed calls")

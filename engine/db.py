@@ -50,6 +50,42 @@ CREATE TABLE IF NOT EXISTS why_lines (
     created TEXT NOT NULL
 );
 
+-- Every story a tracked company has appeared in, kept for a month. The raw material for
+-- company_daily below. Companies come from config/companies.yaml. engine/trends.py
+CREATE TABLE IF NOT EXISTS company_stories (
+    id INTEGER PRIMARY KEY,
+    company TEXT NOT NULL,
+    item_ids TEXT NOT NULL,         -- JSON list, used to recognise the same story next run
+    headline TEXT NOT NULL,
+    outlets INTEGER NOT NULL,       -- how many outlets covered the story
+    coverage REAL NOT NULL,         -- those outlets at their weights (national 3, UK specialist 2, others 1)
+    in_headline INTEGER NOT NULL,   -- 1 if the company is named in the headlines
+    section TEXT,
+    first_seen TEXT NOT NULL,
+    last_seen TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS company_stories_company ON company_stories(company, last_seen);
+
+-- Trend history. One row per company per UK day, kept forever (a hundred or so rows a day at most).
+-- Rebuilt from company_stories for the last 29 days on every run, then frozen. engine/trends.py
+CREATE TABLE IF NOT EXISTS company_daily (
+    date TEXT NOT NULL,             -- UK date, YYYY-MM-DD, of the story's first article
+    company TEXT NOT NULL,
+    stories INTEGER NOT NULL,       -- stories about the company
+    headline_stories INTEGER NOT NULL,
+    outlets INTEGER NOT NULL,       -- outlets summed across those stories
+    attention REAL NOT NULL,        -- weighted coverage, full weight in a headline, half in the text only
+    PRIMARY KEY (date, company)
+);
+
+-- Kept articles per section per UK day, kept forever. Rebuilt for the last 13 days on every run.
+CREATE TABLE IF NOT EXISTS section_daily (
+    date TEXT NOT NULL,
+    section TEXT NOT NULL,
+    items INTEGER NOT NULL,
+    PRIMARY KEY (date, section)
+);
+
 CREATE TABLE IF NOT EXISTS source_health (
     source_id TEXT PRIMARY KEY,
     last_attempt TEXT,
@@ -103,6 +139,8 @@ class DB:
         self.conn.execute("DELETE FROM sent WHERE sent_date < ?", (cutoff[:10],))
         self.conn.execute("DELETE FROM fb_posts WHERE posted_at < ?", (cutoff,))
         self.conn.execute("DELETE FROM why_lines WHERE created < ?", (cutoff,))
+        # A month of company stories feeds the trend history. company_daily and section_daily are never pruned.
+        self.conn.execute("DELETE FROM company_stories WHERE last_seen < ?", (iso(now - timedelta(days=30)),))
 
     # ----- sent stories -----
     def sent_records(self, except_date: str | None = None) -> list[tuple[set[int], float]]:
@@ -167,6 +205,25 @@ class DB:
             "SELECT COUNT(DISTINCT line) AS n FROM why_lines WHERE created >= ?", (iso(day_start),)
         ).fetchone()
         return row["n"] or 0
+
+    # ----- company coverage history (engine/trends.py) -----
+    def company_stories_sharing(self, item_ids: list[int], near: datetime) -> list[sqlite3.Row]:
+        """Saved company stories (any company) that share an article with this story."""
+        ids = set(item_ids)
+        rows = self.conn.execute("SELECT id, item_ids, first_seen FROM company_stories WHERE last_seen >= ?",
+                                 (iso(near - timedelta(days=4)),)).fetchall()
+        return [r for r in rows if ids & set(json.loads(r["item_ids"]))]
+
+    def delete_company_stories(self, ids: list[int]):
+        self.conn.executemany("DELETE FROM company_stories WHERE id = ?", [(i,) for i in ids])
+
+    def save_company_story(self, company: str, item_ids: list[int], row: dict):
+        self.conn.execute(
+            """INSERT INTO company_stories (company, item_ids, headline, outlets, coverage, in_headline,
+                                            section, first_seen, last_seen)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (company, json.dumps(sorted(item_ids)), row["headline"], row["outlets"], row["coverage"],
+             int(row["in_headline"]), row["section"], row["first_seen"], row["last_seen"]))
 
     # ----- source health -----
     def record_health(self, source_id: str, now: datetime, ok: bool, count: int, error: str | None):

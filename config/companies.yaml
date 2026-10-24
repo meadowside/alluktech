@@ -1,0 +1,161 @@
+# All UK Tech: the names we track for coverage trends
+#
+# Every story that passes the site's rules is checked against these names. The matches are saved
+# day by day so we can see who the UK tech press is writing about more (or less) than usual.
+# Nothing here changes what appears on the site or in the email.
+#
+# Companies, plus a few regulators and public bodies that drive a lot of UK tech news.
+# Add, remove or edit freely. Changes apply on the next hourly run (past days keep the old matches).
+#
+# id:       short name used in the database. Don't change it once set, or the history splits in two.
+# name:     shown in reports
+# group:    uk-tech, fintech, telecoms, big-tech, chips, security, banks, regulator, public
+# aliases:  words that tag a story, matched on whole words, any case ("Monzo", "monzo's")
+# exact:    words matched with exact capitals only, for names that are also everyday words
+#           ("Arm" the company, not "arm" the body part)
+# ignore:   phrases that look like the name but aren't the company ("investment arm")
+#
+# A company is only tagged when enough of a story's coverage is about it: named in at least a
+# quarter of the headlines, or in the text of half the articles. A passing mention doesn't count.
+
+companies:
+  # ================= Big tech: US and Asian firms active in the UK =================
+  - {id: google, name: Google, group: big-tech, aliases: [Google, Alphabet, YouTube, Sundar Pichai, Waymo, Gemini AI, Google Cloud]}
+  - {id: deepmind, name: Google DeepMind, group: big-tech, aliases: [DeepMind, Demis Hassabis]}
+  - {id: microsoft, name: Microsoft, group: big-tech, aliases: [Microsoft, Satya Nadella, Azure, Xbox, LinkedIn, Copilot, Mustafa Suleyman]}
+  - {id: amazon, name: Amazon, group: big-tech, aliases: [Amazon, AWS, Amazon Web Services, Andy Jassy, Alexa]}
+  - {id: apple, name: Apple, group: big-tech, aliases: [Apple Inc, iPhone, iPhones, iPad, Tim Cook, App Store, iOS], exact: [Apple]}
+  - {id: meta, name: Meta, group: big-tech, aliases: [Meta Platforms, Facebook, Instagram, WhatsApp, Mark Zuckerberg, Zuckerberg], exact: [Meta], ignore: [Meta For Data]}
+  - {id: nvidia, name: Nvidia, group: big-tech, aliases: [Nvidia, Jensen Huang]}
+  - {id: openai, name: OpenAI, group: big-tech, aliases: [OpenAI, ChatGPT, Sam Altman, Stargate UK]}
+  - {id: anthropic, name: Anthropic, group: big-tech, aliases: [Anthropic, Dario Amodei, Claude AI], exact: [Claude]}
+  - {id: tesla, name: Tesla, group: big-tech, aliases: [Tesla]}
+  - {id: spacex, name: SpaceX and Starlink, group: big-tech, aliases: [SpaceX, Starlink]}
+  - {id: xai, name: xAI and X, group: big-tech, aliases: [xAI, Grok, Twitter]}
+  - {id: tiktok, name: TikTok, group: big-tech, aliases: [TikTok, ByteDance]}
+  - {id: palantir, name: Palantir, group: big-tech, aliases: [Palantir, Alex Karp]}
+  - {id: oracle, name: Oracle, group: big-tech, aliases: [Larry Ellison], exact: [Oracle]}
+  - {id: ibm, name: IBM, group: big-tech, aliases: [IBM]}
+  - {id: salesforce, name: Salesforce, group: big-tech, aliases: [Salesforce, Marc Benioff]}
+  - {id: netflix, name: Netflix, group: big-tech, aliases: [Netflix]}
+  - {id: spotify, name: Spotify, group: big-tech, aliases: [Spotify]}
+  - {id: uber, name: Uber, group: big-tech, aliases: [Uber]}
+  - {id: cloudflare, name: Cloudflare, group: big-tech, aliases: [Cloudflare]}
+  - {id: crowdstrike, name: CrowdStrike, group: big-tech, aliases: [CrowdStrike]}
+  - {id: fujitsu, name: Fujitsu, group: big-tech, aliases: [Fujitsu]}
+  - {id: huawei, name: Huawei, group: big-tech, aliases: [Huawei]}
+  - {id: samsung, name: Samsung, group: big-tech, aliases: [Samsung]}
+  - {id: softbank, name: SoftBank, group: big-tech, aliases: [SoftBank, Masayoshi Son]}
+  - {id: deepseek, name: DeepSeek, group: big-tech, aliases: [DeepSeek]}
+  - {id: mistral, name: Mistral AI, group: big-tech, aliases: [Mistral AI]}
+  - {id: coreweave, name: CoreWeave, group: big-tech, aliases: [CoreWeave]}
+  - {id: shein-temu, name: Shein and Temu, group: big-tech, aliases: [Shein, Temu]}
+  - {id: intel, name: Intel, group: chips, aliases: [Intel Corp], exact: [Intel]}
+  - {id: qualcomm, name: Qualcomm, group: chips, aliases: [Qualcomm]}
+  - {id: tsmc, name: TSMC, group: chips, aliases: [TSMC, Taiwan Semiconductor]}
+
+  # ================= UK chips, hardware and deep tech =================
+  - {id: arm, name: Arm, group: chips, aliases: [Arm Holdings, Rene Haas], exact: [Arm], ignore: [Center Arm, Centre Arm, Data Arm, Investment Arm, Lending Arm, Finance Arm, Cloud Arm, Venture Arm, Ventures Arm, Research Arm, Retail Arm, Banking Arm, Consulting Arm, Arm of the, Long Arm]}
+  - {id: graphcore, name: Graphcore, group: chips, aliases: [Graphcore]}
+  - {id: imagination, name: Imagination Technologies, group: chips, aliases: [Imagination Technologies]}
+  - {id: alphawave, name: Alphawave, group: chips, aliases: [Alphawave]}
+  - {id: iqe, name: IQE, group: chips, aliases: [IQE]}
+  - {id: raspberry-pi, name: Raspberry Pi, group: uk-tech, aliases: [Raspberry Pi]}
+  - {id: oxford-nanopore, name: Oxford Nanopore, group: uk-tech, aliases: [Oxford Nanopore]}
+  - {id: oxford-instruments, name: Oxford Instruments, group: uk-tech, aliases: [Oxford Instruments]}
+  - {id: quantinuum, name: Quantinuum, group: uk-tech, aliases: [Quantinuum]}
+  - {id: oxford-ionics, name: Oxford Ionics, group: uk-tech, aliases: [Oxford Ionics]}
+  - {id: riverlane, name: Riverlane, group: uk-tech, aliases: [Riverlane]}
+  - {id: nothing, name: Nothing, group: uk-tech, aliases: [Carl Pei, Nothing Phone, Nothing Technology, CMF Phone]}
+  - {id: nscale, name: Nscale, group: uk-tech, aliases: [Nscale]}
+
+  # ================= UK AI and software =================
+  - {id: wayve, name: Wayve, group: uk-tech, aliases: [Wayve]}
+  - {id: synthesia, name: Synthesia, group: uk-tech, aliases: [Synthesia]}
+  - {id: stability-ai, name: Stability AI, group: uk-tech, aliases: [Stability AI, Stable Diffusion]}
+  - {id: elevenlabs, name: ElevenLabs, group: uk-tech, aliases: [ElevenLabs, Eleven Labs]}
+  - {id: isomorphic, name: Isomorphic Labs, group: uk-tech, aliases: [Isomorphic Labs]}
+  - {id: physicsx, name: PhysicsX, group: uk-tech, aliases: [PhysicsX]}
+  - {id: polyai, name: PolyAI, group: uk-tech, aliases: [PolyAI]}
+  - {id: faculty, name: Faculty AI, group: uk-tech, aliases: [Faculty AI]}
+  - {id: quantexa, name: Quantexa, group: uk-tech, aliases: [Quantexa]}
+  - {id: tractable, name: Tractable, group: uk-tech, aliases: [Tractable AI], exact: [Tractable]}
+  - {id: builder-ai, name: Builder.ai, group: uk-tech, aliases: [Builder.ai]}
+  - {id: oxa, name: Oxa, group: uk-tech, aliases: [Oxa autonomy, Oxbotica], exact: [Oxa]}
+  - {id: cera, name: Cera, group: uk-tech, aliases: [Cera Care], exact: [Cera]}
+  - {id: improbable, name: Improbable, group: uk-tech, aliases: [Improbable Worlds]}
+  - {id: legora, name: Legora, group: uk-tech, aliases: [Legora]}
+  - {id: sage, name: Sage, group: uk-tech, aliases: [Sage Group], exact: [Sage], ignore: [Sage advice, Sage Gateshead]}
+  - {id: kainos, name: Kainos, group: uk-tech, aliases: [Kainos]}
+  - {id: softcat, name: Softcat, group: uk-tech, aliases: [Softcat]}
+  - {id: computacenter, name: Computacenter, group: uk-tech, aliases: [Computacenter]}
+  - {id: bytes, name: Bytes Technology, group: uk-tech, aliases: [Bytes Technology]}
+  - {id: rightmove, name: Rightmove, group: uk-tech, aliases: [Rightmove]}
+  - {id: auto-trader, name: Auto Trader, group: uk-tech, aliases: [Auto Trader, AutoTrader]}
+  - {id: trainline, name: Trainline, group: uk-tech, aliases: [Trainline]}
+  - {id: ocado, name: Ocado, group: uk-tech, aliases: [Ocado]}
+  - {id: deliveroo, name: Deliveroo, group: uk-tech, aliases: [Deliveroo]}
+  - {id: just-eat, name: Just Eat, group: uk-tech, aliases: [Just Eat, Just Eat Takeaway]}
+  - {id: moonpig, name: Moonpig, group: uk-tech, aliases: [Moonpig]}
+  - {id: depop, name: Depop, group: uk-tech, aliases: [Depop]}
+  - {id: vinted, name: Vinted, group: uk-tech, aliases: [Vinted]}
+  - {id: octopus, name: Octopus Energy and Kraken, group: uk-tech, aliases: [Octopus Energy, Kraken Technologies, Greg Jackson]}
+  - {id: frontier, name: Frontier Developments, group: uk-tech, aliases: [Frontier Developments]}
+  - {id: rockstar, name: Rockstar Games, group: uk-tech, aliases: [Rockstar Games, Rockstar North, GTA 6, GTA VI, Grand Theft Auto]}
+  - {id: games-workshop, name: Games Workshop, group: uk-tech, aliases: [Games Workshop]}
+
+  # ================= UK fintech =================
+  - {id: revolut, name: Revolut, group: fintech, aliases: [Revolut, Nik Storonsky]}
+  - {id: monzo, name: Monzo, group: fintech, aliases: [Monzo]}
+  - {id: starling, name: Starling Bank, group: fintech, aliases: [Starling Bank, Starling Group, Engine by Starling], exact: [Starling]}
+  - {id: wise, name: Wise, group: fintech, aliases: [Wise plc, Wise Payments, Kristo Käärmann, Kristo Kaarmann], exact: ["Wise's", Wise shares, Wise listing, Wise customers]}
+  - {id: checkout-com, name: Checkout.com, group: fintech, aliases: [Checkout.com]}
+  - {id: gocardless, name: GoCardless, group: fintech, aliases: [GoCardless]}
+  - {id: zopa, name: Zopa, group: fintech, aliases: [Zopa]}
+  - {id: oaknorth, name: OakNorth, group: fintech, aliases: [OakNorth]}
+  - {id: thought-machine, name: Thought Machine, group: fintech, aliases: [Thought Machine]}
+  - {id: clearscore, name: ClearScore, group: fintech, aliases: [ClearScore]}
+  - {id: funding-circle, name: Funding Circle, group: fintech, aliases: [Funding Circle]}
+  - {id: atom-bank, name: Atom bank, group: fintech, aliases: [Atom bank]}
+  - {id: kroo, name: Kroo, group: fintech, aliases: [Kroo]}
+  - {id: moneybox, name: Moneybox, group: fintech, aliases: [Moneybox]}
+  - {id: freetrade, name: Freetrade, group: fintech, aliases: [Freetrade]}
+  - {id: trading-212, name: Trading 212, group: fintech, aliases: [Trading 212]}
+  - {id: marshmallow, name: Marshmallow, group: fintech, aliases: [Marshmallow insurance, Marshmallow insurer], exact: [Marshmallow]}
+  - {id: lseg, name: LSEG, group: fintech, aliases: [LSEG, London Stock Exchange Group]}
+
+  # ================= Banks (outages, AI and tech spending) =================
+  - {id: barclays, name: Barclays, group: banks, aliases: [Barclays]}
+  - {id: lloyds, name: Lloyds Banking Group, group: banks, aliases: [Lloyds Bank, Lloyds Banking, Halifax bank, Bank of Scotland], exact: [Lloyds]}
+  - {id: natwest, name: NatWest, group: banks, aliases: [NatWest, RBS, Royal Bank of Scotland]}
+  - {id: hsbc, name: HSBC, group: banks, aliases: [HSBC]}
+  - {id: santander, name: Santander UK, group: banks, aliases: [Santander]}
+  - {id: nationwide, name: Nationwide, group: banks, aliases: [Nationwide Building Society], exact: [Nationwide]}
+
+  # ================= Telecoms and broadband =================
+  - {id: bt, name: BT, group: telecoms, aliases: [BT Group, Allison Kirkby], exact: [BT, EE]}
+  - {id: openreach, name: Openreach, group: telecoms, aliases: [Openreach]}
+  - {id: vodafone-three, name: VodafoneThree, group: telecoms, aliases: [Vodafone, VodafoneThree, Three UK]}
+  - {id: virgin-media-o2, name: Virgin Media O2, group: telecoms, aliases: [Virgin Media, VMO2, Virgin Media O2], exact: [O2]}
+  - {id: sky, name: Sky, group: telecoms, aliases: [Sky Broadband, Sky Mobile, Sky Glass], exact: [Sky], ignore: [Sky News, Sky Sports, Sky high, Sky-high, Big Sky]}
+  - {id: talktalk, name: TalkTalk, group: telecoms, aliases: [TalkTalk]}
+  - {id: cityfibre, name: CityFibre, group: telecoms, aliases: [CityFibre]}
+  - {id: oneweb, name: OneWeb and Eutelsat, group: telecoms, aliases: [OneWeb, Eutelsat]}
+
+  # ================= Cyber security firms =================
+  - {id: darktrace, name: Darktrace, group: security, aliases: [Darktrace]}
+  - {id: sophos, name: Sophos, group: security, aliases: [Sophos]}
+  - {id: ncc-group, name: NCC Group, group: security, aliases: [NCC Group]}
+
+  # ================= Regulators and public bodies =================
+  - {id: ofcom, name: Ofcom, group: regulator, aliases: [Ofcom]}
+  - {id: cma, name: CMA, group: regulator, aliases: [Competition and Markets Authority, Sarah Cardell], exact: [CMA]}
+  - {id: ico, name: ICO, group: regulator, aliases: [Information Commissioner, John Edwards ICO], exact: [ICO]}
+  - {id: fca, name: FCA, group: regulator, aliases: [Financial Conduct Authority], exact: [FCA]}
+  - {id: bank-of-england, name: Bank of England, group: regulator, aliases: [Bank of England]}
+  - {id: dsit, name: DSIT, group: public, aliases: ["Department for Science, Innovation and Technology", Department for Science Innovation and Technology], exact: [DSIT]}
+  - {id: ai-security-institute, name: AI Security Institute, group: public, aliases: [AI Security Institute, AI Safety Institute], exact: [AISI]}
+  - {id: ncsc, name: NCSC, group: public, aliases: [National Cyber Security Centre], exact: [NCSC]}
+  - {id: gchq, name: GCHQ, group: public, aliases: [GCHQ]}
+  - {id: nhs, name: NHS, group: public, aliases: [NHS England, NHS App], exact: [NHS]}
+  - {id: hmrc, name: HMRC, group: public, aliases: [HMRC]}

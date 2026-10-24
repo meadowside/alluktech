@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
@@ -74,8 +75,10 @@ class Story:
     def source_count(self) -> int:
         return len(self.outlets)
 
-    def use_link(self, outlet: Outlet, url: str) -> None:
+    def use_link(self, outlet: Outlet, url: str, title: str | None = None) -> None:
         self.link_outlet, self.link = outlet, url
+        if title:
+            self.headline = title  # keep the headline and the link on the same article
         self.paywall = bool(outlet.source and outlet.source.paywall)
 
     def sources(self) -> list[tuple[Outlet, dict]]:
@@ -248,37 +251,39 @@ def _make_story(group: list, cfg: Config, rules: Rules, now: datetime) -> Story:
     s.headline = lead_item["title"]
     s.section = rules.pick_section(hits, lead.source.sections if lead.source else [])
 
-    # Each outlet's link must be the article the headline describes. A group can hold two
-    # related stories from one outlet (a Capcom breach and a Quest breach), and linking the
-    # wrong one sends readers to a different story.
-    def matches(item) -> float:
-        if item is lead_item:
-            return 1.0
-        return title_overlap(item["title"], s.headline)
+    # Each outlet's link is its most typical article in the group: the one whose title words
+    # turn up most across the other titles. A group can hold two related stories from one
+    # outlet (a Capcom breach and a Quest breach), and "the outlet's first article" can be
+    # the odd one out.
+    def words(t: str) -> set:
+        return {w for w in WORD_RE.findall(t.lower()) if len(w) > 3}
+    df = Counter(w for i in group for w in words(i["title"]))
+
+    def typical(item) -> float:
+        ws = words(item["title"])
+        return sum(df[w] for w in ws) / len(ws) if ws else 0.0
 
     def linkable(o: Outlet, free: bool):
         if free and o.source and o.source.paywall:
             return None
-        best = None
-        for i in o.items:
-            if "news.google.com" in i["url"]:
-                continue
-            m = matches(i)
-            if m >= LINK_MATCH and (best is None or m > best[0]):
-                best = (m, i)
-        return best[1] if best else None
+        real = [i for i in o.items if "news.google.com" not in i["url"]]
+        return max(real, key=typical) if real else None
 
     # Every outlet we could link, best first: free before paywalled, real URLs before Google redirects.
-    options = []
+    options, chosen = [], []
     for free in (True, False):
         for o in ranked:
             item = linkable(o, free)
             if item and all(opt[0] is not o for opt in options):
-                options.append((o, item["url"]))
-    if all(opt[0] is not lead for opt in options):
-        options.append((lead, lead_item["url"]))  # the headline's own article, even via Google
+                options.append((o, item["url"], item["title"]))
+                chosen.append(item)
+    if not options:
+        options.append((lead, lead_item["url"], lead_item["title"]))
+        chosen.append(lead_item)
+    # The headline is the linked article's own title, so the two always agree.
+    s.headline = chosen[0]["title"]
     s.link_options = options
-    s.link_outlet, s.link = options[0]
+    s.link_outlet, s.link = options[0][0], options[0][1]
     s.paywall = bool(s.link_outlet.source and s.link_outlet.source.paywall)
 
     s.teaser = best_teaser(group, s.headline)

@@ -210,9 +210,9 @@ def select_email(stories: list[Story], db: DB, cfg: Config, now: datetime) -> di
 
     def take_link(s: Story) -> bool:
         """Link the best outlet that hasn't hit its cap. A story is only dropped if every outlet has."""
-        for outlet, url in s.link_options:
+        for outlet, url, title in s.link_options:
             if outlet_count[outlet.key] < cap:
-                s.use_link(outlet, url)
+                s.use_link(outlet, url, title)
                 outlet_count[outlet.key] += 1
                 return True
         return False

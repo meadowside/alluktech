@@ -241,7 +241,8 @@ def select_email(stories: list[Story], db: DB, cfg: Config, now: datetime) -> di
 
 
 def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: Path,
-                email_archive: Path) -> dict:
+                email_archive: Path, test: bool = False) -> dict:
+    """test=True writes data/emails/test/ and records nothing, so a real email later isn't affected."""
     global _NOW
     _NOW = now
     picked = select_email(stories, db, cfg, now)
@@ -272,8 +273,13 @@ def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: P
     md = env.get_template("email.md").render(**args).strip() + "\n"
     # Saved with the data in the repo, not on the public site. Andy's Desktop button
     # downloads the .md each morning.
+    if test:
+        email_archive = email_archive / "test"
+        date_file = "test"
+    else:
+        date_file = date
     email_archive.mkdir(parents=True, exist_ok=True)
-    for name, text in ((f"{date}.html", html), (f"{date}.md", md), ("latest.md", md)):
+    for name, text in ((f"{date_file}.html", html), (f"{date_file}.md", md)) + ((("latest.md", md),) if not test else ()):
         (email_archive / name).write_text(text, encoding="utf-8")
 
     # The Substack cover, from the lead story. The AI's first title is shorter than most
@@ -283,12 +289,16 @@ def build_email(stories: list[Story], db: DB, cfg: Config, now: datetime, out: P
             from . import cover
             words = titles[0] if titles and len(titles[0]) <= 70 else lead.headline
             png = cover.render(words, lead.source_count, cfg.section_names.get(lead.section, ""),
-                               local, email_archive / f"{date}-cover.png")
-            (email_archive / "latest-cover.png").write_bytes(png.read_bytes())
+                               local, email_archive / f"{date_file}-cover.png")
+            if not test:
+                (email_archive / "latest-cover.png").write_bytes(png.read_bytes())
         except Exception as e:  # a missing cover must never stop the email
             print(f"  cover failed: {e}")
 
     chosen = ([top] if top else []) + [s for sec in picked["sections"] for s in sec["stories"]]
+    if test:
+        return {"date": "test", "stories": len(chosen), "llm_lines": llm_used,
+                "short_sections": [sec["name"] for sec in picked["sections"] if sec["short"]]}
     db.clear_sent(date)  # a rebuild replaces the day's record rather than adding to it
     for s in chosen:
         db.record_sent(date, s.item_ids, s.coverage)

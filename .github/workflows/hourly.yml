@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: "auto (normal run, skipped if one ran in the last 45 min), force (normal run, never skipped), facebook (post one story now) or email (build today's email now)"
+        description: "auto (normal run, skipped if one ran in the last 45 min), force (normal run, never skipped), facebook (post one story now), email (build today's email now) or email-test (a practice email that marks nothing as sent)"
         default: auto
         type: choice
-        options: [auto, force, facebook, email]
+        options: [auto, force, facebook, email, email-test]
 
 permissions:
   contents: write    # to save the database back to the repo

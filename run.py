@@ -29,7 +29,7 @@ from engine.stories import build_stories
 
 def main():
     ap = argparse.ArgumentParser(description="All UK Tech engine")
-    ap.add_argument("command", choices=["auto", "hourly", "email", "facebook"])
+    ap.add_argument("command", choices=["auto", "hourly", "email", "email-test", "facebook"])
     ap.add_argument("--fixtures", type=Path)
     ap.add_argument("--now")
     ap.add_argument("--db", type=Path, default=ROOT / "data" / "news.db")
@@ -70,6 +70,9 @@ def main():
             message = (f"All UK Tech email for {res['date']} is ready. "
                        "Double-click 'Get today's email' in the All UK Tech Newsletter folder on your Desktop.")
             print(f"  notify: {notify.send(message)}")
+        if args.command == "email-test":
+            res = build_email(stories, db, cfg, now, args.out, archive, test=True)
+            print(f"  test email: {res['stories']} stories in data/emails/test/ (nothing marked as sent)")
 
         fb = cfg.rules["facebook"]
         # Post for the latest slot that has passed today, if nothing has gone out since it.
